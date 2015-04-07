@@ -2,6 +2,7 @@
 from numpy.random import poisson
 from random import random
 from math import log
+from Bio import SeqIO
 
 bases = ['A','T','C','G']
 
@@ -53,14 +54,26 @@ def create_quality_string(errors):
 		fastq += chr(QUAL+33)
 	return fastq
 
+#---------Function: read_fasta
+# 
+#	Input: (filename) Name of fasta file
+#	Output: (fas) Array of fasta objects from Biopython 
+# 
+#	TODO: 
+#		
+def read_fasta(filename):
+	fas = SeqIO.parse(open(filename,'r'),'fasta')
+	return fas
 
 def main():
 	fasta_raw='AAAAAAAAAA'	
 	mean_error = 20  #Assume Sequencing Machine has 2% error
+	
+	fastaread_fasta('example.fasta')
 	errors = assign_error(fasta_raw, mean_error)
 	new_fasta = induce_error(fasta_raw,errors)
 	fastq_quality_string = create_quality_string(errors)
-	print fastq_quality_string
+	
 
 if __name__ == '__main__':
 	main()
