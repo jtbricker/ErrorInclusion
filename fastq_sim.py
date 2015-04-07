@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 from numpy.random import poisson
 from random import random
+from math import log
 
 bases = ['A','T','C','G']
 
@@ -9,7 +10,9 @@ bases = ['A','T','C','G']
 #	Input: Raw FASTA Sequence (fasta), Mean of Poisson Distribution (lamb)
 #	Output: Array of error values associated with each base in fasta seq (errors)
 # 
-#	TODO: Needs a more accurate method of calculating error
+#	TODO: 
+#		Needs a more accurate method of calculating error
+#		Perhaps assign QUAL score instead of error
 def assign_error(fasta, lamb):
 	errors = []
 	for base in fasta:
@@ -19,10 +22,11 @@ def assign_error(fasta, lamb):
 
 #---------Function: induce_error
 # 
-#	Input: Raw FASTA Sequence (fasta), Associated Array of Errors (errors)
-#	Output: New FASTA Sequence with added errors (new_fasta)
+#	Input: (fasta) Raw FASTA Sequence, (errors) Associated Array of Errors
+#	Output: (new_fasta) New FASTA Sequence with added errors
 # 
 #	TODO: 
+#
 def induce_error(fasta, errors):
 	new_fasta = ""
 	for i in range(len(fasta)):
@@ -35,13 +39,28 @@ def induce_error(fasta, errors):
 			new_fasta += fasta[i]
 	return new_fasta
 
+#---------Function: create_quality_string
+# 
+#	Input: (errors) Array of Errors 
+#	Output: (fastq) String of ASCII characters representing error values in (errors)
+# 
+#	TODO: 
+#		Add compatibility with other sequencers
+def create_quality_string(errors):
+	fastq = ""
+	for error in errors:
+		QUAL = int(round(-10*log(error/(1-error),10)))   #These are mappings for Illumina 1.8+
+		fastq += chr(QUAL+33)
+	return fastq
+
 
 def main():
 	fasta_raw='AAAAAAAAAA'	
 	mean_error = 20  #Assume Sequencing Machine has 2% error
 	errors = assign_error(fasta_raw, mean_error)
 	new_fasta = induce_error(fasta_raw,errors)
-	print new_fasta
+	fastq_quality_string = create_quality_string(errors)
+	print fastq_quality_string
 
 if __name__ == '__main__':
 	main()
