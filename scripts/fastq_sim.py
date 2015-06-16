@@ -68,7 +68,7 @@ def create_quality_string(errors):
 	for i in range(len(errors)):
 		error = errors[i]
 		QUAL = int(round(-10*log(error/(1-error),10)))   #These are mappings for Illumina 1.8+
-		print QUAL
+		#print QUAL
 		fastq += chr(QUAL+33)
 	return fastq
 
@@ -98,7 +98,7 @@ def main(filename):
 	mean_error = 0.02  #Assume Sequencing Machine has 2% error
 	
 	sequences = read_fasta(filename)
-	outfile = open(filename + ".FASTQ",'w')
+	outfile = open(filename[0:filename.lower().rfind('.fasta')] + ".FASTQ",'w')
 	for sequence in sequences:
 		sequence.errors = assign_error(sequence.seq, mean_error)
 		sequence.new_seq = induce_error(sequence.seq,sequence.errors)
