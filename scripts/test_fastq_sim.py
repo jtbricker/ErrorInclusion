@@ -2,6 +2,7 @@ import unittest, fastq_sim as fs, os
 from math import log
 from scipy import stats
 from random import random
+import numpy as np
 
 
 bases = ['A','T','C','G']
@@ -40,7 +41,7 @@ class AssignErrorTest(unittest.TestCase):
 	def setUp(self):
 		self.error_mean = 0.02;
 		self.seq = 'AAA'*10000
-		self.errors = fs.assign_error(self.seq, self.error_mean)
+		self.errors = fs.assign_error(self.seq)
 
 	#test if length of error array is same as original sequence
 	def test_error_assign_length(self):
@@ -48,18 +49,15 @@ class AssignErrorTest(unittest.TestCase):
 
 	# test if mean of errors is within a close range of true error mean.
 	def test_error_assign_mean(self):  
-		mean_of_errors = 0
-		for error in self.errors:
-			mean_of_errors += log(error)
-		mean_of_errors /= len(self.errors)
-		self.assertLess(abs(mean_of_errors-log(self.error_mean)), 0.01) 
+		mean_of_errors = np.mean(self.errors)
+		self.assertLess(abs(mean_of_errors-self.error_mean), 0.01) 
 
 #Test if error induction method results in a mutated string with teh appropriate error rate
 class ErrorInductionTest(unittest.TestCase):
 	def setUp(self):
 		self.sequence = 'A'*10000
 		self.error_rate = 0.05
-		self.errors = fs.assign_error(self.sequence, self.error_rate*100.0)
+		self.errors = fs.assign_error(self.sequence)
 		self.error_seq = fs.induce_error(self.sequence, self.errors)
 
 	#test if percent of errors in new sequence agrees with the error rate
@@ -103,11 +101,11 @@ class FastqOutputTest(unittest.TestCase):
 		for base in self.error_seq:  #Random QUALS
 			self.qualityString += quals[int(random()*len(self.error_seq))]
 		
-		self.outfile = open(self.filename+".FASTQ",'w')
+		self.outfile = open(self.filename.split('.')[0]+".FASTQ",'w')
 		fs.output_fastq_file(self.outfile, self.seq_name, self.error_seq, self.qualityString) #outputs to testfile.fasta.FASTQ
 		self.outfile.close()
 
-		self.file = open('testfile.fasta.FASTQ','r')
+		self.file = open('testfile.FASTQ','r')
 		self.name_line = self.file.readline().strip()
 		self.seq_line = self.file.readline().strip()
 		self.plus_line = self.file.readline().strip()
@@ -131,7 +129,7 @@ class FastqOutputTest(unittest.TestCase):
 		self.assertEqual(self.qual_line, self.qualityString)
 
 	def tearDown(self):
-		os.remove('testfile.fasta.FASTQ')
+		os.remove('testfile.FASTQ')
 
 #Test to make sure output as FASTQ function works properly when multiple sequences present
 class MainTest(unittest.TestCase):
@@ -150,7 +148,7 @@ class MainTest(unittest.TestCase):
 		fs.main(self.filename)
 
 		#Observe the output file and check
-		self.outfile = open('testfile.fasta.FASTQ','r')
+		self.outfile = open('testfile.FASTQ','r')
 		self.seqs = self.outfile.readlines()
 		self.outfile.close()
 
@@ -168,7 +166,7 @@ class MainTest(unittest.TestCase):
 
 	def tearDown(self):
 		os.remove('testfile.fasta')
-		os.remove('testfile.fasta.FASTQ')
+		os.remove('testfile.FASTQ')
 
 if __name__ == '__main__':
 	unittest.main()
