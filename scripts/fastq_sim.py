@@ -1,12 +1,15 @@
 #!/usr/local/bin/python
-from numpy.random import poisson, lognormal
-from random import random
+import numpy.random as npr
 from math import log
 from Bio import SeqIO
 import sys
+import numpy as np
 
 bases = ['A','T','C','G']
-
+seed = npr.randint(0, 4294967295)
+kseed = 828459089
+npr.seed(seed)
+print seed
 #---------Function: read_fasta
 # 
 #	Input: (filename) Name of fasta file
@@ -31,10 +34,12 @@ def read_fasta(filename):
 #	TODO: 
 #		Needs a more accurate method of calculating error
 #		Perhaps assign QUAL score instead of error
-def assign_error(seq, mu, sigma=1):
-	errors = []
-	for i in range(len(seq)):
-		errors.append(lognormal(log(mu), sigma)) 
+#		Assign error based on position in sequence
+def assign_error(seq, alpha=1.2, beta=58.8, sigma=1):
+	errors=npr.beta(alpha, beta, len(seq)) 
+	#import matplotlib.pyplot as plt 
+	#plt.hist(errors,bins=np.linspace(0,1,1000))
+	#plt.show()
 	return errors
 
 #---------Function: induce_error
@@ -47,10 +52,10 @@ def assign_error(seq, mu, sigma=1):
 def induce_error(fasta, errors):
 	new_fasta = ""
 	for i in range(len(fasta)):
-		if random() < errors[i]:
-			new_base = bases[int(random()*4)]
+		if npr.random() < errors[i]:
+			new_base = bases[int(npr.random()*4)]
 			while new_base == fasta[i]:
-				new_base = bases[int(random()*4)]
+				new_base = bases[int(npr.random()*4)]
 			new_fasta += new_base
 		else:
 			new_fasta += fasta[i]
@@ -67,8 +72,14 @@ def create_quality_string(errors):
 	fastq = ""
 	for i in range(len(errors)):
 		error = errors[i]
-		QUAL = int(round(-10*log(error/(1-error),10)))   #These are mappings for Illumina 1.8+
-		#print QUAL
+		try:
+			QUAL = int(round(-10*log(error/(1-error),10)))   #These are mappings for Illumina 1.8+
+		except:
+			print 'Some kind of math error.  Random seed:  ' + str(seed)
+			print 'Tried to run code: int(round(-10*log(error/(1-error),10)))'
+			print error
+			exit(1)
+		#print QUAL+33>=33
 		fastq += chr(QUAL+33)
 	return fastq
 
@@ -95,12 +106,12 @@ def output_fastq_file(outfile, name, sequence_string, quality_string):
 #	TODO: Add optional arguments (sequencing machine or errors for example)
 #		
 def main(filename):
-	mean_error = 0.02  #Assume Sequencing Machine has 2% error
+	#mean_error = 0.02  #Assume Sequencing Machine has 2% error
 	
 	sequences = read_fasta(filename)
 	outfile = open(filename[0:filename.lower().rfind('.fasta')] + ".FASTQ",'w')
 	for sequence in sequences:
-		sequence.errors = assign_error(sequence.seq, mean_error)
+		sequence.errors = assign_error(sequence.seq)
 		sequence.new_seq = induce_error(sequence.seq,sequence.errors)
 		sequence.qual = create_quality_string(sequence.errors)
 		output_fastq_file(outfile, str(sequence.name), str(sequence.seq), str(sequence.qual))
