@@ -37,31 +37,29 @@ def get_sequences(filename):
 	file.close()
 	return names, seqs, quals
 
-#---------Function: main
+
+
+#---------Function: filter_reads
+#
+#	This function takes in an array of alligned sequences (and their associated quality scores)
+#	and outputs removes "columns" from this allignment where at least one of the quality score
+#	falls below the threshold passed in. Returns filtered seqs and quals.
 # 
-#	Input: (filename) string indicating the name of the FASTQ file you want to filter on, (threshold) minimum quality score to keep
-#	Output: --none-- Runs all methods and creates FASTQ/FASTA file of modified sequence data
+#	Input: (seqs, quals, threshold) arrays sequences and quality strings, quality threshold value
+#	Output: (newSeqs, newQuals) arrays containing the 
 # 
-#	TODO: Add optional arguments (sequencing machine for example)
+#	TODO: 
 #		
-def main(filename, threshold):
-	names, seqs, quals = get_sequences(filename)
-
-
+def filter_reads(seqs, quals, threshold):
 	indicies = []
 	newSeqs = []
 	newQuals = []
-	#print( quals)
 	
 	for i in range( len(quals) ):
 		for j in range( len(quals[i])):
-			#print( type( char_to_qual( quals[i][j] ) ) )
-			#print( type( threshold ))
-			#print(  char_to_qual(quals[i][j])  >  threshold )
 			if char_to_qual(quals[i][j]) > int( threshold):
 				continue
 			else:
-				#print("hello")
 				indicies.append(j)
 			
 	for i in range( len(seqs) ):
@@ -75,11 +73,18 @@ def main(filename, threshold):
 				temp2 += quals[i][j]
 		newSeqs.append( temp )
 		newQuals.append( temp2)
-		
-	#print newSeqs
-	#print newQuals
-	
-	a = open( 'FastqFilter.FASTQ', 'w')
+
+	return newSeqs,newQuals
+
+#---------Function: output_fastq
+# 
+#	Input: (fastq_filename,names, seqs, quals) arrays sequences and quality strings, quality threshold value
+#	Output: (none) creates new fastq file with name fastq_filtered_filename
+# 
+#	TODO: 
+#		
+def output_fastq(fastq_filtered_filename, names, newSeqs, newQuals):
+	a = open( fastq_filtered_filename, 'w')
 	
 	for i in range( len(names)):
 		a.write( "@" + names[i] + "\n")
@@ -87,9 +92,20 @@ def main(filename, threshold):
 		a.write("+" + "\n")
 		a.write( newQuals[i] + "\n")
 	a.close()
+
+#---------Function: main
+# 
+#	Input: (filename) string indicating the name of the FASTQ file you want to filter on, (threshold) minimum quality score to keep
+#	Output: --none-- Runs all methods and creates FASTQ/FASTA file of modified sequence data
+# 
+#	TODO: Add optional arguments (sequencing machine for example)
+#		
+def main(filename, threshold):
+	names, seqs, quals = get_sequences(filename)
+	newSeqs, newQuals = filter_reads(seqs,quals,threshold)
+	fastq_filtered_filename = filename.split('.fastq')[0]+'_FILTERED.fastq'
+	output_fastq(fastq_filtered_filename, names, newSeqs, newQuals)
 	
-
-
 
 if __name__ == '__main__':
 	if len(sys.argv) <3 :
