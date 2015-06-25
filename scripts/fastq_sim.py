@@ -9,7 +9,7 @@ bases = ['A','T','C','G']
 seed = npr.randint(0, 4294967295)
 kseed = 828459089
 npr.seed(seed)
-print seed
+#print seed
 #---------Function: read_fasta
 # 
 #	Input: (filename) Name of fasta file
@@ -109,7 +109,7 @@ def main(filename):
 	#mean_error = 0.02  #Assume Sequencing Machine has 2% error
 	
 	sequences = read_fasta(filename)
-	outfile = open(filename[0:filename.lower().rfind('.fasta')] + ".FASTQ",'w')
+	outfile = open(filename[0:filename.lower().rfind('.fasta')] + ".fastq",'w')
 	for sequence in sequences:
 		sequence.errors = assign_error(sequence.seq)
 		sequence.new_seq = induce_error(sequence.seq,sequence.errors)
