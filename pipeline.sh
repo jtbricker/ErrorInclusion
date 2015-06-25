@@ -8,6 +8,7 @@ scripts="scripts"
 #	-o (output type) Phylip
 #	-q (quiet)
 #	-l (length) 1000
+echo "HELLO WORLD!"
 seq-gen -mHKY $data/example.tree -op -q -l1000 >> $data/inseq.phy
 
 #Step 2:(ABC) Convert seqeunces from phylip to FASTA format
@@ -24,7 +25,7 @@ python $scripts/fastq_sim.py $data/inseq.fasta
 
 #Step 5:(ABC) Generate XML file for beast using FASTA/FASTQ files
 #cat beauti_template.xml | sed 's/nameofFASTAfile/newName/g' > newNameBeauti.xml  #copying the  beauti file
-
+echo "HELLO WORLD!"
 
 #Step 6:(ABC) Run beast
 beast -overwrite -working $data/beauti_template.xml
