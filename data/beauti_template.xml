@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" version="2.0">
 
-
-    <data
-id="sequences"
-name="alignment">
-                    <sequence id="seq_Taxon1" taxon="Taxon1" totalcount="4" value="GCATGGGGTAATGACCTTTGCTACTCAGAGGCACGTGGTCCGTGAATGACTAGTCGGATTGGTCCGCCAGGTAGAGACTTGTCCTGCCGCATTTCGGGGGGGTCTGCCGCTGACTTTAAACTGCCAGTATGAGCCCCCGATGGTCTACTCTTAGGAAATTGTGCTTAAACTCCGCCCCCGTCATTTCACTGATAAGTAAAAGGCTGAGAGAAGCCAGCGGTACTTCATATTGTTTCTTGATACCATCGATTCACCATGGTCAATGAGTATGAAACAACAACAGATTGCGGAGTCCGGTTTTTTGATTGGTTTAACGCGAGCAGGAAGAGGGCAAAACCCGTGCGCCTGATAGGGATTTCCTAGCAGAAGTCCACAAATTCGCGCTTTGCAATGTACTTGACCCAGTCTAAACGGAGATCGCCTACTGAGTAAGGTTGAATGATATAGACACCGTAACCGACCTTTGCATACTAAATGCAAAACCAGCCTGTTACGGGCGGTATCCCTCAATTTTATTTAACAAAATGATTCTGGAGCTACCGCTAACACCTCTCTTCGCAGAGACGCATCCTACTATATTTTAGCCTAAGGTTTGGAGGAGTGGCGATTGGCGCGTGGAATCCGTTCGCAGATCGGAACTGTCGCTCCCTGGGATGGTGAACGACCCTATTAAAGCTATAGTTCTGACCTTCCCCATATGCAATATGTGATGCCGCATGAGGTATTTTACGGAGTCTTCTCCAATGGTCTAATTAGTTCGTAGTTGTCGCACCTCTAATGAGGCTGGTAATCTGTTGCTGAATCTCGAAGACATCCCACGACAACGACACCGGCGGAAATCCCGAACACCCACAAACCTAAATCCCCTAGAAGGATGTCACCTCGCCGGATGTCCTACGGCTGGCACTTGTGTAAACAATAGACCCTGGGCCCTATTGTTTAATCCTTGGGTACACTTACGTGCAAGACTAGTCTTCACACCCGCAGAGGATTACGGGCA"/>
-                    <sequence id="seq_Taxon2" taxon="Taxon2" totalcount="4" value="GTATGGACTGCGGACCTTTACTTCTGATAGATTCGTGGTCCATGAATGCCTTGTCGGACGTGACTGCCTGTCAGAGCCGTGTCTTCACGAATAACGAGGGCGTAGGCCCGCGACTTTAAACTGCATGAGTCAGCGCCCGAGCGTCTACGGTTAGGTAATTGTGAGTAGAAACCGGACCCGTCAGTTCGCTAGAATCTAAAAGGCTGCAAGTGGCCACCTGTTTTTCATATTGTTTAGCGATACCATCGATTCACCTCGCTCAATGAGGCTGAGACGAAGCCACGGTGCAGAGGTGTGGTTTTAGATTGTTTTAACCCGTGCCTGACGACGGCAAAGCTCGTGCTCCAGATAGGGAACGTCTGGCACAAGTTCACAAATTTGCGCTTAGCAATTTCTTGTACCCCATGTAAACCAGGCTAACCTACTCACCGTGGTTGTATGAACGAGAAAGCGTAACTGACCTATGCATATTAAATACATAATCAGTCCTGTAGGGGTGGCCTTCCGCAATGTTTTTGAAAATAATAGTTATGTCGGTACTTCAAACACCACTCTTCGCAGACGCGATTCCTTCTGAATGTCAGCCTTAGTTATGTAGGAGAAGCACTTAACGAATGGTAAATGTTAGCCAATTAGAACATTCGCTGCCTAGTAAGGTGTCCACCGGTGTTAAACCTGTAGTTGGTACGCGACCCATGAGCAATTCGGAACGCGGAATGAGGTATTTTACGGAGTCTTCTCTACTGGGATCATTAGCTCGTCGTTGCCGCACATCTACGGCGCCTGCTACTCAGCTGCCGAAACTGTGAACCATCACACAATAAGATAATCGGCGCACTTCCGGGCCACAGTGAAAGATCAATCCCCTAGAAGGAGACAACTTTGGGTGATGTCAAACGGCTGGGTCTTGGGAAATTAGTCGAGCGTGCGCACGAGTTTTTAAACCTTTGGCACATTTGACTCGATGACGCGTCCTCAAAACAGCACACCATTACGGGTA"/>
-                    <sequence id="seq_Taxon3" taxon="Taxon3" totalcount="4" value="GCAATGGTAACTATCCTGTGATGCCCAAAGCTGCTTCGTCCGTGTATGACGTGGCGGATCTAAAGGCCAGGCTGAGCCTTGTCTTTCCGGTTTAAACGGTTGGCTCTGGAGGCATTGAAATTGCATGTGTTTGTCCGTGCATGGAAATGGCTGGAAACTTGTGTGAAAAAAACGCCGCCGTCAGTTCACAAATAACTAAAGGACGGAAAGTAGCTAACTGTGTTTCGTATTGTTTCGCGCTACCACCCGTTCACCACATGCAACGCTCATGAAACGTAGAAAAGTGGCGGTTGCGGAATTTTGGTTCGCTGTCACGCGGGCAGGTACCTGGCAATGCTCGAGCAAATGATGAGGAACTTGGAGCACATTTGCACCTATTCCCGCTTTGACAGATCGTGTACCCCATCTAACGCGGGCACGCCGGGACAGCATCAGTGGTAGGTACAGACGCAGTCTCCGCCCTATGCAAACTAAATGTAAACCCAGTTCGTGAGGGGCCGTCTCTCTCAGATTTCTTGATAACCAAAGTTCTCTCCGGACTGTGTTCACCACGCATCGCAGCCAAGCATTCTTCTAGATGCTAATCGACCCTATGAGGGACAAGGGGTCGGGGCATGGGATAATTTCTCCAAGCAGGATCGCCGGTTAAGAGTAAGGTGTCCGACGCAAATTGACGTGTTGTAGCTACTAATCCCGTGCGCAGAACGTGATGCGGCATGCGGCAATTGGCTGAGTCGTCTCCGATGGGGTCAGGGGCTCGTGGTTGTCGCGTAGCTAGTACTGCTGCTAACCTGCTCGCCATCCTAGGATCACTCAAAAAAGAAAGACAGAGGCGCAATGCCGGGCCTCCGCGGAACCGAAGCCCCCTAGCATGATAATCCCGTGACTAATAGCCAATTTCAGGCGTCTGCGGCAGTTCTAGTCGCTGGGTCCTAGAACCGTCGTCTTTGCTCGAGCTAACTCCATGAAATCTCCCCACAGCGGTTAAGCCTTACGGGCT"/>
-                    <sequence id="seq_Taxon4" taxon="Taxon4" totalcount="4" value="GTAAGGACTTCTAAGATCTGCAGCTCAAATATGCTTCGTCGATGATTGACTTCTCGGTTTCAATATCCAGGCCGTGCCCTCGCTTGCCTAATTACGCGGGGGGGTGGAGGTATCTTGAAACACCCTGTGATAGTCGCCGCTCGGTTACGTCGTTTAAATTGAGGGCGAACACGCACCGCGTCGGTGCCGAAATATCTTAATGGATAATTAGAGCCAAGTGTAGTCCTTATGTTCTGGAGATACCATCGTTCCACCATATGCCACGCGCGTATGCCGAAGATAAGGGGAGGTTGCGACTTTTTGGTTTTGTTACCCGAGGGCCGGACGTCTGCGCACCCCTTGTAGCTGAATGTCAATAGTGACATCGTAGTCACAATTTCTCGAGATGAAGGGTGCAGTATACTTTAAAAGCCTTGCCAGCTCGATAAGTAAGCGAGAAAGGCATAGACCCCGTATCTGATATATCCAGTTGCTATGCAGCAGTTGGCGGTAATCGATGGTCCCCCTCAATTCTCATTATACGACCGGTTCCTTCGGCACTGCTTATAAACCCCAACTCCAAAAACCGTTGCTCGATAATTTAGTTTACGCTAGCGCGGCGAAGCGGTATGCCCATGGACTAAGTTCTCGGATGACAACAGCCTCTGGGTAGGCAGGTGCTCGATGTGTTATAACCTGTAGTTGGGTCAGCGTTAAGCTTTAAGTGCTGTTCCTGCTTGGAAAAAGTGGCGGAGAAGGATCAAATGGGTTCGTGAACACTTCTTCGTAGTCTACCCGGAACAGTTGCCAACTCGCTGTCCATTTCGTGGATCGTGGGAGAACAAAGAGCTTGCCCCAATGCCGGGCAACCCCAGAATCCAACACCAATTATTGGATGATACCGATGGGAATAGCGATCGTCTACACCCTCGGGTCACGACAGTCCCCGGGCCCTTAGTTTTTATTCGTGGTTTCGACCAACTACCGAACAACTCCTTAAACCGATTACCGGTTACCGTAC"/>
-                </data>
-
-
-    
-
-
-    
-
-
+SEQUENCE_TEMPLATE
     
 <map name="Uniform" >beast.math.distributions.Uniform</map>
 <map name="Exponential" >beast.math.distributions.Exponential</map>
@@ -32,29 +16,29 @@ name="alignment">
 
 <run id="mcmc" spec="MCMC" chainLength="10000000">
     <state id="state" storeEvery="5000">
-        <tree id="Tree.t:sequences" name="stateNode">
-            <taxonset id="TaxonSet.sequences" spec="TaxonSet">
-                <alignment idref="sequences"/>
+        <tree id="Tree.t:inseq2" name="stateNode">
+            <taxonset id="TaxonSet.inseq2" spec="TaxonSet">
+                <alignment idref="inseq2"/>
             </taxonset>
         </tree>
-        <parameter id="birthRate.t:sequences" name="stateNode">1.0</parameter>
-        <parameter id="kappa.s:sequences" lower="0.0" name="stateNode">2.0</parameter>
-        <parameter id="freqParameter.s:sequences" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25</parameter>
+        <parameter id="birthRate.t:inseq2" name="stateNode">1.0</parameter>
+        <parameter id="kappa.s:inseq2" lower="0.0" name="stateNode">2.0</parameter>
+        <parameter id="freqParameter.s:inseq2" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25</parameter>
     </state>
 
-    <init id="RandomTree.t:sequences" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:sequences" taxa="@sequences">
-        <populationModel id="ConstantPopulation0.t:sequences" spec="ConstantPopulation">
-            <parameter id="randomPopSize.t:sequences" name="popSize">1.0</parameter>
+    <init id="RandomTree.t:inseq2" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:inseq2" taxa="@inseq2">
+        <populationModel id="ConstantPopulation0.t:inseq2" spec="ConstantPopulation">
+            <parameter id="randomPopSize.t:inseq2" name="popSize">1.0</parameter>
         </populationModel>
     </init>
 
     <distribution id="posterior" spec="util.CompoundDistribution">
         <distribution id="prior" spec="util.CompoundDistribution">
-            <distribution id="YuleModel.t:sequences" spec="beast.evolution.speciation.YuleModel" birthDiffRate="@birthRate.t:sequences" tree="@Tree.t:sequences"/>
-            <prior id="YuleBirthRatePrior.t:sequences" name="distribution" x="@birthRate.t:sequences">
+            <distribution id="YuleModel.t:inseq2" spec="beast.evolution.speciation.YuleModel" birthDiffRate="@birthRate.t:inseq2" tree="@Tree.t:inseq2"/>
+            <prior id="YuleBirthRatePrior.t:inseq2" name="distribution" x="@birthRate.t:inseq2">
                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
             </prior>
-            <prior id="KappaPrior.s:sequences" name="distribution" x="@kappa.s:sequences">
+            <prior id="KappaPrior.s:inseq2" name="distribution" x="@kappa.s:inseq2">
                 <LogNormal id="LogNormalDistributionModel.0" name="distr">
                     <parameter id="RealParameter.0" estimate="false" name="M">1.0</parameter>
                     <parameter id="RealParameter.01" estimate="false" name="S">1.25</parameter>
@@ -62,54 +46,54 @@ name="alignment">
             </prior>
         </distribution>
         <distribution id="likelihood" spec="util.CompoundDistribution">
-            <distribution id="treeLikelihood.sequences" spec="TreeLikelihood" data="@sequences" tree="@Tree.t:sequences">
-                <siteModel id="SiteModel.s:sequences" spec="SiteModel">
-                    <parameter id="mutationRate.s:sequences" estimate="false" name="mutationRate">1.0</parameter>
-                    <parameter id="gammaShape.s:sequences" estimate="false" name="shape">1.0</parameter>
-                    <parameter id="proportionInvariant.s:sequences" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
-                    <substModel id="hky.s:sequences" spec="HKY" kappa="@kappa.s:sequences">
-                        <frequencies id="estimatedFreqs.s:sequences" spec="Frequencies" frequencies="@freqParameter.s:sequences"/>
+            <distribution id="treeLikelihood.inseq2" spec="TreeLikelihood" data="@inseq2" tree="@Tree.t:inseq2">
+                <siteModel id="SiteModel.s:inseq2" spec="SiteModel">
+                    <parameter id="mutationRate.s:inseq2" estimate="false" name="mutationRate">1.0</parameter>
+                    <parameter id="gammaShape.s:inseq2" estimate="false" name="shape">1.0</parameter>
+                    <parameter id="proportionInvariant.s:inseq2" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
+                    <substModel id="hky.s:inseq2" spec="HKY" kappa="@kappa.s:inseq2">
+                        <frequencies id="estimatedFreqs.s:inseq2" spec="Frequencies" frequencies="@freqParameter.s:inseq2"/>
                     </substModel>
                 </siteModel>
-                <branchRateModel id="StrictClock.c:sequences" spec="beast.evolution.branchratemodel.StrictClockModel">
-                    <parameter id="clockRate.c:sequences" estimate="false" name="clock.rate">1.0</parameter>
+                <branchRateModel id="StrictClock.c:inseq2" spec="beast.evolution.branchratemodel.StrictClockModel">
+                    <parameter id="clockRate.c:inseq2" estimate="false" name="clock.rate">1.0</parameter>
                 </branchRateModel>
             </distribution>
         </distribution>
     </distribution>
 
-    <operator id="YuleBirthRateScaler.t:sequences" spec="ScaleOperator" parameter="@birthRate.t:sequences" scaleFactor="0.75" weight="3.0"/>
+    <operator id="YuleBirthRateScaler.t:inseq2" spec="ScaleOperator" parameter="@birthRate.t:inseq2" scaleFactor="0.75" weight="3.0"/>
 
-    <operator id="YuleModelTreeScaler.t:sequences" spec="ScaleOperator" scaleFactor="0.5" tree="@Tree.t:sequences" weight="3.0"/>
+    <operator id="YuleModelTreeScaler.t:inseq2" spec="ScaleOperator" scaleFactor="0.5" tree="@Tree.t:inseq2" weight="3.0"/>
 
-    <operator id="YuleModelTreeRootScaler.t:sequences" spec="ScaleOperator" rootOnly="true" scaleFactor="0.5" tree="@Tree.t:sequences" weight="3.0"/>
+    <operator id="YuleModelTreeRootScaler.t:inseq2" spec="ScaleOperator" rootOnly="true" scaleFactor="0.5" tree="@Tree.t:inseq2" weight="3.0"/>
 
-    <operator id="YuleModelUniformOperator.t:sequences" spec="Uniform" tree="@Tree.t:sequences" weight="30.0"/>
+    <operator id="YuleModelUniformOperator.t:inseq2" spec="Uniform" tree="@Tree.t:inseq2" weight="30.0"/>
 
-    <operator id="YuleModelSubtreeSlide.t:sequences" spec="SubtreeSlide" tree="@Tree.t:sequences" weight="15.0"/>
+    <operator id="YuleModelSubtreeSlide.t:inseq2" spec="SubtreeSlide" tree="@Tree.t:inseq2" weight="15.0"/>
 
-    <operator id="YuleModelNarrow.t:sequences" spec="Exchange" tree="@Tree.t:sequences" weight="15.0"/>
+    <operator id="YuleModelNarrow.t:inseq2" spec="Exchange" tree="@Tree.t:inseq2" weight="15.0"/>
 
-    <operator id="YuleModelWide.t:sequences" spec="Exchange" isNarrow="false" tree="@Tree.t:sequences" weight="3.0"/>
+    <operator id="YuleModelWide.t:inseq2" spec="Exchange" isNarrow="false" tree="@Tree.t:inseq2" weight="3.0"/>
 
-    <operator id="YuleModelWilsonBalding.t:sequences" spec="WilsonBalding" tree="@Tree.t:sequences" weight="3.0"/>
+    <operator id="YuleModelWilsonBalding.t:inseq2" spec="WilsonBalding" tree="@Tree.t:inseq2" weight="3.0"/>
 
-    <operator id="KappaScaler.s:sequences" spec="ScaleOperator" parameter="@kappa.s:sequences" scaleFactor="0.5" weight="0.1"/>
+    <operator id="KappaScaler.s:inseq2" spec="ScaleOperator" parameter="@kappa.s:inseq2" scaleFactor="0.5" weight="0.1"/>
 
-    <operator id="FrequenciesExchanger.s:sequences" spec="DeltaExchangeOperator" delta="0.01" weight="0.1">
-        <parameter idref="freqParameter.s:sequences"/>
+    <operator id="FrequenciesExchanger.s:inseq2" spec="DeltaExchangeOperator" delta="0.01" weight="0.1">
+        <parameter idref="freqParameter.s:inseq2"/>
     </operator>
 
-    <logger id="tracelog" fileName="sequences.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
+    <logger id="tracelog" fileName="inseq2.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
         <log idref="posterior"/>
         <log idref="likelihood"/>
         <log idref="prior"/>
-        <log idref="treeLikelihood.sequences"/>
-        <log id="TreeHeight.t:sequences" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:sequences"/>
-        <log idref="YuleModel.t:sequences"/>
-        <log idref="birthRate.t:sequences"/>
-        <log idref="kappa.s:sequences"/>
-        <log idref="freqParameter.s:sequences"/>
+        <log idref="treeLikelihood.inseq2"/>
+        <log id="TreeHeight.t:inseq2" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:inseq2"/>
+        <log idref="YuleModel.t:inseq2"/>
+        <log idref="birthRate.t:inseq2"/>
+        <log idref="kappa.s:inseq2"/>
+        <log idref="freqParameter.s:inseq2"/>
     </logger>
 
     <logger id="screenlog" logEvery="1000">
@@ -119,8 +103,8 @@ name="alignment">
         <log idref="prior"/>
     </logger>
 
-    <logger id="treelog.t:sequences" fileName="$(tree).trees" logEvery="1000" mode="tree">
-        <log id="TreeWithMetaDataLogger.t:sequences" spec="beast.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:sequences"/>
+    <logger id="treelog.t:inseq2" fileName="$(tree).trees" logEvery="1000" mode="tree">
+        <log id="TreeWithMetaDataLogger.t:inseq2" spec="beast.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:inseq2"/>
     </logger>
 
 </run>
