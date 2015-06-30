@@ -18,7 +18,7 @@ def char_to_qual(char):
 #---------Function: get_sequences
 # 
 #	Input: (filename) string indicating the name of the FASTQ file you want to filter on
-#	Output: --none-- Runs all methods and creates FASTQ/FASTA file of modified sequence data
+#	Output: (names, seqs, quals) Arrays containing the names, sequences, and quality strings of all the indivduals from the inputted FASTQ file
 # 
 #	TODO: 
 #		
@@ -36,6 +36,25 @@ def get_sequences(filename):
 		line = file.readline()
 	file.close()
 	return names, seqs, quals
+
+#---------Function: get_fasta_sequences
+# 
+#	Input: (filename) string indicating the name of the FASTA file you want to get name/seq data from
+#	Output: (names, seqs) Arrays containing the names and sequences of all the indivduals from the inputted FASTA file
+# 
+#	TODO: 
+#		
+def get_fasta_sequences(filename):
+	file = open(filename,'r')
+	names = []
+	seqs = []
+	line = file.readline()
+	while(line):
+		names.append(line[1:].strip())
+		seqs.append(file.readline().strip())
+		line = file.readline()
+	file.close()
+	return names, seqs
 
 
 
