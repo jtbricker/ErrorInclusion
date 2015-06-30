@@ -1,5 +1,6 @@
 import fastq_filter as ff
 import sys
+import os
 
 #---------Function: build_beauti_string
 # 
@@ -25,7 +26,7 @@ def build_beauti_string(filename, names, seqs, quals):
         stringInsert = stringInsert + seqs[i]
         stringInsert = stringInsert + '"/> \n'
     stringInsert = stringInsert + '</data> \n' 
-    return stringInsert;
+    return stringInsert, dataID;
 
 #---------Function: output_beauti_file
 # 
@@ -34,7 +35,7 @@ def build_beauti_string(filename, names, seqs, quals):
 # 
 #   TODO: Handle quality data when applicable
 #       
-def output_beauti_file(stringInsert, outfilename):
+def output_beauti_file(stringInsert, outfilename, dataID):
     b = open( 'data/beauti_template.xml', 'r')
     readInFile = b.readlines()
     b.close()
@@ -47,6 +48,8 @@ def output_beauti_file(stringInsert, outfilename):
     for i in range( len(readInFile)):
         c.write( readInFile[i] )
     c.close();
+    os.system("perl -p -i -e 's/SEQ_ID_NAME/"+dataID+"/g' "+outfilename)
+
 
 #---------Function: main
 # 
@@ -66,11 +69,11 @@ def main(filename):
         print "Wrong filetype: Must provide with fasta/FASTA or fastq/FASTQ file"
         exit(1);
     #build beauti string
-    template_insert = build_beauti_string(filename,names,seqs,quals)
+    template_insert, dataID = build_beauti_string(filename,names,seqs,quals)
 
     #create output file
     outfilename = filename.split('.fast')[0]+'_beauti.xml'
-    output_beauti_file(template_insert, outfilename)
+    output_beauti_file(template_insert, outfilename, dataID)
 
 if __name__=='__main__':
     try:
