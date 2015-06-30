@@ -13,3 +13,6 @@ rm -f $d/beauti_template.xml.state
 rm -f $d/*sequences*
 rm -f $d/*.log
 find $d/*xml ! -name "beauti_template.xml" -exec rm {} \;
+rm -f $d/*state*
+rm -f $d/intree
+rm -f $d/outfile
