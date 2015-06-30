@@ -57,9 +57,9 @@ def output_beauti_file(stringInsert, outfilename):
 #       
 def main(filename):
     #get sequences from file
-    if(filename.split('.')[-1].lower() === 'fasta'):
+    if(filename.split('.')[-1].lower() == 'fasta'):
         names, seqs, quals = ff.get_sequences(a)
-    elif(filename.split('.')[-1].lower() === 'fastq'):
+    elif(filename.split('.')[-1].lower() == 'fastq'):
         names, seqs = ff.get_fasta_sequences(a)
     else:
         print "Wrong filetype: Must provide with fasta/FASTA or fastq/FASTQ file"
