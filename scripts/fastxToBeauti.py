@@ -35,7 +35,7 @@ def build_beauti_string(filename, names, seqs, quals):
 #   TODO: Handle quality data when applicable
 #       
 def output_beauti_file(stringInsert, outfilename):
-    b = open( 'beauti2.xml', 'r')
+    b = open( 'beauti_template.xml', 'r')
     readInFile = b.readlines()
     b.close()
 
