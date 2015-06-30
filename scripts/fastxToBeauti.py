@@ -11,9 +11,9 @@ import sys
 def build_beauti_string(filename, names, seqs, quals):
     a = filename
     stringInsert = ""
-    dataID = a.split('.py')
-    stringInsert = stringInsert + '<data id=' + dataID[0] + ' name=\"alignment"> \n'
-    for i in range( 1, len( names ) ):
+    dataID = a.split('.fastq')[0].split('/')[-1]
+    stringInsert = stringInsert + '<data id="' + dataID + '" name=\"alignment"> \n'
+    for i in range( len( names ) ):
         stringInsert = stringInsert + '<sequence id="seq_'         
         stringInsert = stringInsert + names[i]
         stringInsert = stringInsert + '" '
@@ -21,9 +21,9 @@ def build_beauti_string(filename, names, seqs, quals):
         stringInsert = stringInsert + '"'
         stringInsert = stringInsert + names[i]
         stringInsert = stringInsert + '" '
-        stringInsert = stringInsert + 'totalcount="4" value= "'
+        stringInsert = stringInsert + 'totalcount="4" value="'
         stringInsert = stringInsert + seqs[i]
-        stringInsert = stringInsert + '" /> \n'
+        stringInsert = stringInsert + '"/> \n'
     stringInsert = stringInsert + '</data> \n' 
     return stringInsert;
 
