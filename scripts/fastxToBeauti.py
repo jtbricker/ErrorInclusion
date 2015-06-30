@@ -12,7 +12,7 @@ import os
 def build_beauti_string(filename, names, seqs, quals):
     a = filename
     stringInsert = ""
-    dataID = a.split('.fastq')[0].split('/')[-1]
+    dataID = a.split('.fastq')[0].split('.fasta')[0].split('/')[-1]
     stringInsert = stringInsert + '<data id="' + dataID + '" name=\"alignment"> \n'
     for i in range( len( names ) ):
         stringInsert = stringInsert + '<sequence id="seq_'         
