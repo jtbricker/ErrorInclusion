@@ -1,7 +1,6 @@
 #!/usr/local/bin/python
 import numpy.random as npr
 from math import log
-from Bio import SeqIO
 import sys
 import numpy as np
 import fastq_filter as ff
