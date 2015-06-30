@@ -3,38 +3,12 @@ from math import log
 from scipy import stats
 from random import random
 import numpy as np
+import fastq_filter as ff
 
 
 bases = ['A','T','C','G']
 quals = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI"
 
-#Test to Make Sure FASTA Files with Multiple Sequences are being read in correctly
-class ReadFASTATest(unittest.TestCase):
-	def setUp(self):
-		self.file = open('test.fa','w')
-		for a in range(3):
-			self.file.write('>TestSequence%s\n'%(a+1))
-			self.file.write(bases[a]*(a+1)*10)
-			self.file.write('\n')
-		self.file.close()
-
-	def test_read_first_sequence(self):
-		self.seqs = fs.read_fasta('test.fa')
-		self.assertEqual(self.seqs.next().seq,'AAAAAAAAAA')
-
-	def test_read_second_sequence(self):
-		self.seqs = fs.read_fasta('test.fa')
-		self.seqs.next()
-		self.assertEqual(self.seqs.next().seq,'TTTTTTTTTTTTTTTTTTTT')
-
-	def test_read_third_sequence(self):
-		self.seqs = fs.read_fasta('test.fa')
-		self.seqs.next()
-		self.seqs.next()
-		self.assertEqual(self.seqs.next().seq,'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC')
-
-	def tearDown(self):
-		os.remove('test.fa')
 
 # Test to Make Sure that the assign_error function is opererating correctly
 class AssignErrorTest(unittest.TestCase):

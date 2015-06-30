@@ -4,27 +4,14 @@ from math import log
 from Bio import SeqIO
 import sys
 import numpy as np
+import fastq_filter as ff
 
 bases = ['A','T','C','G']
 seed = npr.randint(0, 4294967295)
 kseed = 828459089
 npr.seed(seed)
 #print seed
-#---------Function: read_fasta
-# 
-#	Input: (filename) Name of fasta file
-#	Output: (fas) Array of fasta objects from Biopython 
-#
-#	Notes:  Returns an array of Seq objects from BioPython module.  Can extract
-#			sequence with fas[0].seq, or name with  fas[0].name
-# 
-#	TODO: 	
-#		Try and Except opening file
-#		Test if output file already exists and warn that it will be deleted?
-#		
-def read_fasta(filename):
-	fas = SeqIO.parse(open(filename,'r'),'fasta')
-	return fas
+
 
 #---------Function: assign_error
 # 
@@ -108,13 +95,16 @@ def output_fastq_file(outfile, name, sequence_string, quality_string):
 def main(filename):
 	#mean_error = 0.02  #Assume Sequencing Machine has 2% error
 	
-	sequences = read_fasta(filename)
+	names, sequences = ff.get_fasta_sequences(filename)
+	errors = []
+	new_sequences = []
+	quals = []
 	outfile = open(filename[0:filename.lower().rfind('.fasta')] + ".fastq",'w')
-	for sequence in sequences:
-		sequence.errors = assign_error(sequence.seq)
-		sequence.new_seq = induce_error(sequence.seq,sequence.errors)
-		sequence.qual = create_quality_string(sequence.errors)
-		output_fastq_file(outfile, str(sequence.name), str(sequence.seq), str(sequence.qual))
+	for i in range(len(sequences)):
+		errors.append(assign_error(sequences[i]))
+		new_sequences.append(induce_error(sequences[i],errors[i]))
+		quals.append(create_quality_string(errors[i]))
+		output_fastq_file(outfile, str(names[i]), str(sequences[i]), str(quals[i]))
 	outfile.close()
 
 if __name__ == '__main__':
