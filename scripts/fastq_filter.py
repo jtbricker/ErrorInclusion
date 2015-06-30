@@ -93,10 +93,26 @@ def output_fastq(fastq_filtered_filename, names, newSeqs, newQuals):
 		a.write( newQuals[i] + "\n")
 	a.close()
 
+
+#---------Function: output_fasta
+# 
+#	Input: (fastq_filename,names, seqs) arrays sequences and quality strings
+#	Output: (none) creates new fasta file with name fasta_filtered_filename
+# 
+#	TODO: 
+#		
+def output_fastq(fasta_filtered_filename, names, newSeqs):
+	a = open( fasta_filtered_filename, 'w')
+	
+	for i in range( len(names)):
+		a.write( ">" + names[i] + "\n")
+		a.write( newSeqs[i] + "\n")
+	a.close()
+
 #---------Function: main
 # 
 #	Input: (filename) string indicating the name of the FASTQ file you want to filter on, (threshold) minimum quality score to keep
-#	Output: --none-- Runs all methods and creates FASTQ/FASTA file of modified sequence data
+#	Output: --none-- Runs all methods and creates both FASTQ/FASTA file of modified sequence data
 # 
 #	TODO: Add optional arguments (sequencing machine for example)
 #		
@@ -105,6 +121,8 @@ def main(filename, threshold):
 	newSeqs, newQuals = filter_reads(seqs,quals,threshold)
 	fastq_filtered_filename = filename.split('.fastq')[0]+'_FILTERED.fastq'
 	output_fastq(fastq_filtered_filename, names, newSeqs, newQuals)
+	fasta_filtered_filename = filename.split('.fastq')[0]+'_FILTERED.fasta'
+	output_fasta(fasta_filtered_filename, names, newSeqs)
 	
 
 if __name__ == '__main__':
