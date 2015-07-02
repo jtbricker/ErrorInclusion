@@ -2,7 +2,7 @@
 data="data"
 scripts="scripts"
 
-rm launchfile_temp
+rm -f launchfile_temp
 
 filter_threshold=15
 
@@ -49,9 +49,9 @@ do
 
 
 		#Step 6:(ABC) Run beast
-		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'\_inseq\_RAW\_beauti.xml '$ID' 1 4:00:00' >> launchfile_temp
-		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'\_inseq\_FILTERED\_beauti.xml '$ID' 1 4:00:00' >> launchfile_temp
-		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'\_inseq\_FASTQ\_FILTERED\_beauti.xml '$ID' 1 4:00:00' >> launchfile_temp
+		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_RAW_beauti.xml '$ID' 1 4:00:00' >> launchfile_temp
+		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FILTERED_beauti.xml '$ID' 1 4:00:00' >> launchfile_temp
+		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FASTQ_FILTERED_beauti.xml '$ID' 1 4:00:00' >> launchfile_temp
 
 
 		INDEX=$(($INDEX+1))
