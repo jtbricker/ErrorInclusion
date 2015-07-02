@@ -48,9 +48,9 @@ do
 
 
 		#Step 6:(ABC) Run beast
-		echo beast_submit beast $data/$ID\_inseq\_RAW\_beauti.xml 1 04:00:00 >> launchfile_temp
-		echo beast_submit beast $data/$ID\_inseq\_FILTERED\_beauti.xml 1 04:00:00 >> launchfile_temp
-		echo beast_submit beast $data/$ID\_inseq\_FASTQ\_FILTERED\_beauti.xml 1 04:00:00 >> launchfile_temp
+		echo cd ErrorInclusion; beast_submit beast $data/$ID\_inseq\_RAW\_beauti.xml $ID 1 4:00:00 >> launchfile_temp
+		echo cd ErrorInclusion; beast_submit beast $data/$ID\_inseq\_FILTERED\_beauti.xml $ID 1 4:00:00 >> launchfile_temp
+		echo cd ErrorInclusion; beast_submit beast $data/$ID\_inseq\_FASTQ\_FILTERED\_beauti.xml $ID 1 4:00:00 >> launchfile_temp
 
 
 		INDEX=$(($INDEX+1))
@@ -89,3 +89,4 @@ do
 		done
 	done
 done	
+echo 
