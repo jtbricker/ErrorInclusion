@@ -1,3 +1,4 @@
+#!/bin/bash
 data="data"
 scripts="scripts"
 
