@@ -27,7 +27,7 @@ do
 		#Step 2:(ABC) Convert seqeunces from phylip to FASTA format, remove unneeded phy file
 		#	Input: $data/sequences.phy
 		#	Output: $data/sequences.fasta
-		python $scripts/phylipToFASTA.py $data/$ID_inseq.phy $data/$ID\_inseq.fasta
+		python $scripts/phylipToFASTA.py $data/$ID\_inseq.phy $data/$ID\_inseq.fasta
 		cp $data/$ID\_inseq.fasta $data/$ID\_inseq\_RAW.fasta
 		rm $data/$ID\_inseq.phy
 
