@@ -21,7 +21,7 @@ do
 	#	Input: $data/sequences.phy
 	#	Output: $data/sequences.fasta
 	python $scripts/phylipToFASTA.py $data/inseq_$REP.phy $data/inseq_$REP.fasta
-	cp $data/inseq.fasta $data/inseq_RAW_$REP.fasta
+	cp $data/inseq_$REP.fasta $data/inseq_RAW_$REP.fasta
 	rm $data/inseq_$REP.phy
 
 	#Step 3:(BC) Generate simulated FASTQ file from the FASTA file.
