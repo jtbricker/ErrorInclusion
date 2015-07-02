@@ -34,14 +34,14 @@ do
 
 	#Step 5:(ABC) Generate XML file for beast using FASTA/FASTQ files
 	python $scripts/fastxToBeauti.py $data/inseq_RAW_$REP.fasta   #RAW FASTA
-	python $scripts/fastxToBeauti.py $data/inseq_FILTERED_$REP.fasta  #FASTA FROM FILTERED FASTQ
-	python $scripts/fastxToBeauti.py $data/inseq_FASTQ_FILTERED_$REP.fastq #SIMULATED FASTQ
+	python $scripts/fastxToBeauti.py $data/inseq_$REP_FILTERED.fasta  #FASTA FROM FILTERED FASTQ
+	python $scripts/fastxToBeauti.py $data/inseq_FASTQ_$REP_FILTERED.fastq #SIMULATED FASTQ
 
 
 	#Step 6:(ABC) Run beast
 	echo beast_submit beast $data/inseq_RAW_$REP_beauti.xml 1 04:00:00 >> launchfile_temp
-	echo beast_submit beast $data/inseq_FILTERED_$REP_beauti.xml 1 04:00:00 >> launchfile_temp
-	echo beast_submit beast $data/inseq_FASTQ_FILTERED_$REP_beauti.xml 1 04:00:00 >> launchfile_temp
+	echo beast_submit beast $data/inseq__$REPFILTERED_beauti.xml 1 04:00:00 >> launchfile_temp
+	echo beast_submit beast $data/inseq_FASTQ_$REP_FILTERED_beauti.xml 1 04:00:00 >> launchfile_temp
 
 	#cp launchfile_temp ~/launchfile
 	#################################################################
@@ -50,8 +50,8 @@ do
 
 	# # #Step 7:(ABC) Annotate trees
 	# treeannotator $data/inseq_RAW_$REP.trees $data/RAW_tree_$REP.nex
-	# treeannotator $data/inseq_FILTERED_$REP.trees $data/FILTERED_tree_$REP.nex
-	# treeannotator $data/inseq_FASTQ_FILTERED_$REP.trees $data/FASTQ_tree_$REP.nex
+	# treeannotator $data/inseq_$REP_FILTERED.trees $data/FILTERED_tree_$REP.nex
+	# treeannotator $data/inseq_$REP_FASTQ_FILTERED.trees $data/FASTQ_tree_$REP.nex
 
 	# # #Step 8:(ABC) Convert trees into newick format
 	# cat $data/example.tree | sed 's/Taxon//g' > $data/example.tre
