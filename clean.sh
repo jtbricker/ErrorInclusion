@@ -16,3 +16,4 @@ find $d/*xml ! -name "beauti_template.xml" -exec rm {} \;
 rm -f $d/*state*
 rm -f $d/intree
 rm -f $d/outfile
+rm -f $d/*sub
