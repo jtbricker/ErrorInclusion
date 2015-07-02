@@ -1,4 +1,6 @@
 d="data"
+
+for i in {1..100}; do rm -f $d/$i*; done;
 rm -f $d/*.FASTA
 rm -f $d/*.fasta
 rm -f $d/*.phy
