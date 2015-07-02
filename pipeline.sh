@@ -29,15 +29,16 @@ do
 		#	Input: $data/sequences.phy
 		#	Output: $data/sequences.fasta
 		python $scripts/phylipToFASTA.py $data/$ID\_inseq.phy $data/$ID\_inseq.fasta
-		cp $data/$ID\_inseq.fasta $data/$ID\_inseq\_RAW.fasta
+	
 		rm $data/$ID\_inseq.phy
 
 		#Step 3:(BC) Generate simulated FASTQ file from the FASTA file.
 		python $scripts/fastq_sim.py $data/$ID\_inseq.fasta
+		cp $data/$ID\_inseq.fastq  $data/$ID\_inseq\_RAW.fastq
 		cp $data/$ID\_inseq.fastq  $data/$ID\_inseq\_FASTQ.fastq
 
 		#Step 4:(B) Run FASTQ file through some preprocessor
-		python $scripts/fastq_filter.py $data/$ID\_inseq\_RAW.fasta 0
+		python $scripts/fastq_filter.py $data/$ID\_inseq\_RAW.fastq 0
 		cp $data/$ID\_inseq\_RAW_FILTERED.fasta $data/$ID\_inseq\_RAW.fasta
 		python $scripts/fastq_filter.py $data/$ID\_inseq.fastq $F
 		python $scripts/fastq_filter.py $data/$ID\_inseq\_FASTQ.fastq $F  #Temporary
