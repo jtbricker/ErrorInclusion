@@ -6,7 +6,7 @@ rm launchfile_temp
 filter_threshold=15
 
 
-for rep in {1..100}
+for REP in {1..100}
 do
 	#3 Variants: Standard FASTA (A), Preprocessed FASTQ as FASTA (B), FASTQ with likelihood modification (C)
 
