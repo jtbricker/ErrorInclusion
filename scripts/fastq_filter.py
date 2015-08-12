@@ -147,7 +147,7 @@ def main(filename, threshold):
 
 if __name__ == '__main__':
 	if len(sys.argv) <3 :
-		print "Usage: python fastq_sim file.fasta threshold"
+		print "Usage: python fastq_sim file.fastq threshold"
 		exit(1)
 	main(sys.argv[1], sys.argv[2])
 	

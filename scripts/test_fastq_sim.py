@@ -13,9 +13,12 @@ quals = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI"
 # Test to Make Sure that the assign_error function is opererating correctly
 class AssignErrorTest(unittest.TestCase):
 	def setUp(self):
-		self.error_mean = 0.02;
-		self.seq = 'AAA'*10000
-		self.errors = fs.assign_error(self.seq)
+		self.error_mean = 0.15;
+		self.seq = 'AAA'*1000000
+		self.errors = fs.assign_error(self.seq, self.error_mean)
+		print("Mean of Errors: ", np.mean(self.errors))
+		print("Max of Errors: ",np.max(self.errors))
+		
 
 	#test if length of error array is same as original sequence
 	def test_error_assign_length(self):
@@ -24,6 +27,7 @@ class AssignErrorTest(unittest.TestCase):
 	# test if mean of errors is within a close range of true error mean.
 	def test_error_assign_mean(self):  
 		mean_of_errors = np.mean(self.errors)
+		print mean_of_errors
 		self.assertLess(abs(mean_of_errors-self.error_mean), 0.01) 
 
 #Test if error induction method results in a mutated string with teh appropriate error rate
@@ -31,7 +35,7 @@ class ErrorInductionTest(unittest.TestCase):
 	def setUp(self):
 		self.sequence = 'A'*10000
 		self.error_rate = 0.05
-		self.errors = fs.assign_error(self.sequence)
+		self.errors = fs.assign_error(self.sequence, self.error_rate)
 		self.error_seq = fs.induce_error(self.sequence, self.errors)
 
 	#test if percent of errors in new sequence agrees with the error rate
@@ -54,7 +58,7 @@ class QualityAssignTest(unittest.TestCase):
 		self.errors = []
 		self.expected = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHI"
 		for Q in range(41):
-			self.errors.append(1.0/(1.0+10.0**(Q/10.0)))
+			self.errors.append(10.0**(-Q/10.0))
 		self.fastq_string = fs.create_quality_string(self.errors)
 
 	#test if correct ascii characters are generated for Illumina 1.8+ with errors in full range
@@ -118,8 +122,8 @@ class MainTest(unittest.TestCase):
 			self.infile.write("%s\n"%seq)
 		self.infile.close()
 
-		#Pass fasta through the main method
-		fs.main(self.filename)
+		#Pass fasta through the main method with arbitrary 5% error
+		fs.main(self.filename, 0.05)
 
 		#Observe the output file and check
 		self.outfile = open('testfile.FASTQ','r')

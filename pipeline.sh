@@ -7,11 +7,13 @@ rm -f launchfile_temp
 filter_threshold=15
 
 INDEX=0
-TOTAL=1600
+TOTAL=900
 
-for L in 100 500 1000 5000 #SEQUENCE LENGTH
+for L in 100 500 1000 #SEQUENCE LENGTH
 do
-	for F in 5 10 15 20  #FILTER THRESHOLDS (CHANGE FOR FASTQ MUTATION RATE)
+	#for F in 10 15 20  #FILTER THRESHOLDS (CHANGE FOR FASTQ MUTATION RATE)
+	F=15
+	for E in 0.01 0.05 0.10
 	do		
 		for REP in {1..100}  #REPLICATES
 		do
@@ -33,7 +35,7 @@ do
 		rm $data/$ID\_inseq.phy
 
 		#Step 3:(BC) Generate simulated FASTQ file from the FASTA file.
-		python $scripts/fastq_sim.py $data/$ID\_inseq.fasta
+		python $scripts/fastq_sim.py $data/$ID\_inseq.fasta $E
 		cp $data/$ID\_inseq.fastq  $data/$ID\_inseq\_RAW.fastq
 		cp $data/$ID\_inseq.fastq  $data/$ID\_inseq\_FASTQ.fastq
 
