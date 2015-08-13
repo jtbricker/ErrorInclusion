@@ -4,7 +4,7 @@ from math import log
 import sys
 import numpy as np
 import fastq_filter as ff
-import matplotlib.pyplot as pl
+#import matplotlib.pyplot as pl
 
 bases = ['A','T','C','G']
 seed = npr.randint(0, 4294967295)
@@ -28,10 +28,10 @@ def assign_error(seq, mu):
 	beta = 1
 	alpha = (beta * mu) / (1 - mu)
 	errors= npr.beta(alpha, beta, len(seq)) 
-	global PLOT
-	if PLOT:
-		plot_errors(errors)
-		PLOT = 0;
+#	global PLOT
+#	if PLOT:
+#		plot_errors(errors)
+#		PLOT = 0;
 	return errors
 
 
@@ -39,9 +39,9 @@ def assign_error(seq, mu):
 #
 #	Input: (errors) Array of Sequence Errors
 #	Output: (none) Displays histogram of errors
-def plot_errors(errors): 
-	pl.hist(errors,bins=np.linspace(0,1,100))
-	pl.show()
+#def plot_errors(errors): 
+#	pl.hist(errors,bins=np.linspace(0,1,100))
+#	pl.show()
 
 
 
