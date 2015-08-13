@@ -1,0 +1,116 @@
+#!/usr/bin/env python
+#
+import pwd
+import sys
+import os
+import subprocess
+import operator
+import time
+
+def run_command(command):
+    p = subprocess.Popen(command,shell=True,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT)
+    return iter(p.stdout.readline, b'')
+
+def get_username():
+    return pwd.getpwuid( os.getuid() )[ 0 ]
+
+
+def my_idle_jobs(queue):
+    me = get_username()
+    command = "squeue --partition="+queue+" -u "+me+" | grep -v \" R \" | wc"
+    x = run_command(command)
+    for xi in x:
+    	xii = xi.split()
+    	print xii[0]
+	break
+    return int(xii[0])
+
+def replace_stack(launchfile, runs):
+    shortruns = runs[0]
+    longruns = runs[1]
+    home = os.path.expanduser('~')+'/'
+    f = open(home+launchfile,'w')
+    for si in shortruns:
+        f.write(si)
+    for li in longruns:
+        f.write(li)
+    f.close()
+    return len(longruns) + len(shortruns)
+
+def my_waiting_jobs(launchfile):
+    home = os.path.expanduser('~')+'/'
+    print home
+    f = open(home+launchfile,'rU')
+    stack = f.readlines()
+    f.close()
+    shortruns =[]
+    longruns =[]
+    for sti in stack:
+        s = sti.split()
+        if s == []:
+            continue
+        #print s[-1]
+        limittime = time.strptime(s[-1].strip(),"%I:%M:%S")
+        year, month, day, hour, minute, second, weekday, yearday, daylight = limittime
+        runtime = hour*60*60 + minute*60 + second
+        #print runtime,
+        if runtime <= 240*60:
+            shortruns.append(sti)
+        else:
+            longruns.append(sti)
+    #print shortruns
+    return shortruns,longruns
+
+def launch(runs,waiting):
+    longruns = runs[1]
+    shortruns = runs[0]
+    
+    while waiting[1]<10:
+        if len(longruns)>=1:
+            runnow = longruns.pop(0)
+            #print runnow
+            os.system(runnow)
+            waiting[1] += 1
+        else:
+            break
+    print waiting
+    backfiller = [" backfill", " backfill2"]
+    switcher = 0
+    while waiting[0] < 400 or waiting[1] < 800:
+        if len(shortruns)>=1:
+            runnow = shortruns.pop(0)
+            if switcher==0:
+                if waiting[0] < 400:
+                    os.system(runnow.strip()+backfiller[switcher])
+                    print runnow.strip()+backfiller[switcher]
+                    waiting[switcher] += 1
+                switcher = 1
+            else:
+                if waiting[1] < 400:
+                    os.system(runnow.strip()+backfiller[switcher])
+                    print runnow.strip()+backfiller[switcher]
+                    waiting[switcher] += 1
+                switcher = 0
+        else:
+            break
+    return shortruns,longruns
+
+#
+if __name__ == '__main__':
+    # check the number of jobs in the queues 
+    #    backfill
+    #    beerli_q
+    cronostime = (time.strftime("%H:%M:%S"))
+    os.system("echo "+cronostime)
+    backfill= my_idle_jobs('backfill')
+    backfill2= my_idle_jobs('backfill2')
+    beerli_q =  my_idle_jobs('beerli_q')
+    waiting = [backfill, backfill2, beerli_q]
+    print time.strftime("%c"), "start", waiting
+    launchfile = 'launchfile'
+    runs = my_waiting_jobs(launchfile)
+    runs = launch(runs,waiting)
+    remaining = replace_stack(launchfile,runs)
+    print time.strftime("%c"),"end",waiting, "Launchfile:", remaining

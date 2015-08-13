@@ -1,0 +1,283 @@
+#!/usr/bin/env python
+import datetime
+import os
+import sys
+import signal
+
+# from http://pguides.net/python/timeout-a-function
+# June 2011
+class TimeoutException(Exception):
+    pass
+
+def timeout(timeout_time, default):
+    def timeout_function(f):
+        def f2(*args):
+            def timeout_handler(signum, frame):
+                raise TimeoutException()
+            
+            old_handler = signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(timeout_time) # trigger alarm in timeout_time seconds
+            try:
+                retval = f()
+            except TimeoutException:
+                return default
+            finally:
+                signal.signal(signal.SIGALRM, old_handler)
+            signal.alarm(0)
+            return retval
+        return f2
+    return timeout_function
+    
+# end from http://pguides.net/python/timeout-a-function
+# the @ is a decorator
+@timeout(10, "None")
+def get_batchsystem():
+    print "Please enter batch system: ",
+    name = sys.stdin.readline()
+    return name.rstrip("\n")
+
+def setup_batch(forced=False):
+    # first time use on this machine and userid
+    defaultfile = os.path.expanduser('~')+"/.submit__defaults"
+    if forced or not os.path.isfile(defaultfile):
+        defaults = open(defaultfile,"w")
+        print "What batch system do you use?"
+        print "Options are"
+        print "M   moab/torque"
+        print "S   sun/oracle gridengine"
+        print "C   condor (vanilla)"
+        print "N   none"
+        batchflag = get_batchsystem()
+        batchflag = batchflag.upper()[0]
+        defaults.write(batchflag)
+        defaults.close()
+    else:
+        defaults = open(defaultfile,"r")
+        batchflag = defaults.readline()
+        batchflag = batchflag.upper()[0]
+        defaults.close()
+    if batchflag!='L' and batchflag!='M' and batchflag != 'S' and batchflag != 'C':
+        batchflag = 'N'
+    return batchflag
+
+
+
+def sge(program,parmfile,logfile,nodes,wallhour,dobackfill):
+    submitfile = "job"+logfile+".sub"
+    job = open(submitfile,"w")
+    job.write("#!/bin/bash\n")
+    job.write("#$ -m e\n")
+    job.write("#$ -j y\n")
+    job.write("#$ -S /bin/bash\n")
+    job.write("#$ -l h_cpu="+wallhour+" \n")
+    job.write("#$ -V\n")
+    job.write("#$ -cwd\n")
+    if nodes > 1:
+        job.write("mpirun -np "+str(nodes)+" "+program+" "+parmfile+" -nomenu\n") 
+        job.close()
+        print  "qsub -pe mpi ",nodes, submitfile, "(",program, parmfile, wallhour, ")";
+        os.system("qsub -pe mpi "+str(nodes)+" "+submitfile)
+    else:
+        job.write(program+" "+parmfile+" -nomenu\n")
+        job.close()
+        print  "qsub ",submitfile, "(",program, parmfile, wallhour, ")";
+        os.system("qsub "+submitfile)
+
+def moab(program,parmfile,logfile,nodes,wallhour,dobackfill):
+    global definitions
+    submitfile = logfile+".sub"
+    job = open(submitfile,"w")
+    #if not(dobackfill=="b"):
+    #    if nodes > 80:
+    #        nodes = 80
+    job.write("#!/bin/bash\n")
+    job.write("#MOAB -o "+logfile+"\n")
+    job.write("#MOAB -j oe\n")
+    if int(nodes)!=1:
+        job.write("#MOAB -l nodes="+str(nodes)+"\n")
+        job.write("#MOAB -l walltime="+wallhour+"\n")
+        job.write("cd $PBS_O_WORKDIR\n")
+        job.write("cat $PBS_NODEFILE\n")
+        #job.write("mpirun -mca btl ^sm "+program+" "+parmfile+"-nomenu\n")
+        job.write("mpirun "+program+" "+parmfile+" -nomenu\n")
+    else:
+        job.write("#MOAB -l walltime="+wallhour+"\n")
+        job.write("cd $PBS_O_WORKDIR\n")
+        job.write("echo $PBS_NODEFILE\n")
+        job.write(program+" "+parmfile+" -nomenu\n")
+    job.close()
+    if dobackfill=="b":
+        if "backfill2" in definitions[-1]:            
+            print  "msub -q backfill2" , submitfile, "(",program, parmfile, wallhour,")";
+            os.system("msub -q backfill2 "+submitfile)
+        else:
+            print  "msub -q backfill" , submitfile, "(",program, parmfile, wallhour,")";
+            os.system("msub -q backfill "+submitfile)
+    else:
+        if dobackfill[0]!='-':
+            print  "msub -q beerli_q", submitfile, "(",program, parmfile, wallhour,")";
+            os.system("msub -q beerli_q "+submitfile)
+        else:
+            print  "msub", dobackfill, submitfile, "(",program, parmfile, wallhour,")";
+            os.system("msub "+dobackfill+" "+submitfile)
+
+def slurm(program,parmfile,logfile,nodes,wallhour,dobackfill):
+    global definitions
+    print "slurm",definitions
+    submitfile = logfile+".slurm"
+    job = open(submitfile,"w")
+    job.write("#!/bin/bash\n")
+    job.write("#SBATCH -o "+logfile+"\n")
+    if int(nodes)!=1:
+        job.write("#SBATCH -n "+str(nodes)+"\n")
+        job.write("#SBATCH -t "+wallhour+"\n")
+        job.write("module load gnu-openmpi\n")
+        job.write("mpirun "+program+" "+parmfile+" -nomenu\n")
+    else:
+        job.write("#SBATCH -t "+wallhour+"\n")
+        job.write("module load gnu-openmpi\n")
+        job.write(program+" "+parmfile+" -nomenu\n")
+    job.close()
+    print "@", definitions,"@"
+    if dobackfill=="b":
+        if "backfill2" in definitions[-1]:            
+            print  "sbatch -p backfill2" , submitfile, "(",program, parmfile, wallhour,")";
+            os.system("sbatch -p backfill2 "+submitfile)
+        else:
+            print  "sbatch -p backfill" , submitfile, "(",program, parmfile, wallhour,")";
+            os.system("sbatch -p backfill "+submitfile)
+    else:
+        if dobackfill[0]!='-':
+            print  "sbatch -p beerli_q", submitfile, "(",program, parmfile, wallhour,")";
+            os.system("sbatch -p beerli_q "+submitfile)
+        else:
+            print  "sbatch", dobackfill, submitfile, "(",program, parmfile, wallhour,")";
+            os.system("sbatch "+dobackfill+" "+submitfile)
+
+def condor(program,parmfile,logfile): 
+    submitfile = logfile+".condor"  
+    direct = os.getcwd()
+    p = open(parmfile)
+    for line in p:
+        if "infile=" in line[:8]:
+            tokenlist = line.split('=')
+            infile = tokenlist[1].strip()
+            break
+    p.close()
+    job = open(submitfile,"w")      
+    job.write("initialdir = "+direct+"\n")
+    job.write("universe = vanilla\n")
+    job.write("executable = "+program+"\n")
+    job.write("arguments = "+parmfile+" -nomenu\n")
+    job.write("transfer_input_files = "+infile+", "+parmfile+"\n")
+    job.write('requirements = Arch == "X86_64" && OpSys == "LINUX"\n')
+    job.write("should_transfer_files = YES\n")
+    job.write("output = "+logfile+".out\n")
+    job.write("error = "+logfile+".err\n")
+    job.write("when_to_transfer_output = ON_EXIT_OR_EVICT\n")
+    job.write("queue\n")
+    job.close()
+    os.system("condor_submit "+submitfile)
+     
+def standard(program,parmfile,logfile,nodes,wallhour,dobackfill):
+    if nodes >1:
+        os.system("mpirun -np "+str(nodes)+" "+program+" "+parmfile+" -nomenu")
+    else:
+        os.system(program+" "+parmfile+" -nomenu")
+                
+def wall(wallhour):    
+    (hour,minute,second) =  [int(x) for x in wallhour.split(":")]
+    if hour*3600 + minute*60 + second <= 4*3600:
+        backfillqueue = "b"
+    else:
+        backfillqueue = "o"
+    return backfillqueue
+
+definitions=[]
+
+def submit():
+    global definitions
+    myqueue = ""
+    override_batchflag=False
+    today = str(datetime.date.today())
+    definitions = ["migrate-n-mpi","parmfile", "job"+today, 2,"4:00:00","launchfile"]
+    myhelp = set(["--help", "--h", "-h", "-help"])
+    forcequeue = set(["--queue", "--q", "-q", "-queue"])
+    setup = set(["--setup"])
+    arguments = sys.argv
+    argc = len(arguments)
+    #print definitions
+    definitions[:argc] = arguments[1:]
+    #definitions[3] = int(definitions[3])
+    #print definitions
+    
+    needhelp = len(myhelp.intersection(definitions)) > 0
+    needqueue = len(forcequeue.intersection(definitions))>0
+
+    if needhelp:
+        print "Syntax:\n",
+        print "submit --help   prints this help"
+        print "submit --setup  sets up the batch queue"
+        print "submit --queue N forces particular queue"
+        print "                default [default=none [N], moab/torque [M], sun grid engine [S], slurm [L], condor [C]]"
+        print "                if N is none of M S C L then it assumes M and uses the specified queue"
+        print "submit program argument1 jobname numberCPU wallclockTime\n",
+        print "Explanation [default in brackets]:\n",
+        print "program         the executable needs to be an MPI program [migrate-n]\n",
+        print "                if nodes =1 then assumed not MPI\n",
+        print "argument1       one single argument, if no argument use \" \" [parmfile]\n",
+        print "jobname         name of the job [job]\n",
+        print "numberCPU       number of nodes used to run the job [5]\n",
+        print "wallclockTime   Allowd runtime in hours:minutes:seconds [4:00:00]"
+        print "the_queue_to_run_in       default is launchfile, then backfill,beerli_q"
+        sys.exit()
+
+    # forcing a queue
+    if needqueue:
+        for i in range(len(definitions)):
+            if definitions[i][0]=='-':
+                break
+        batchflag = definitions[i+1]
+        definitions.pop(i)
+        definitions.pop(i)
+        print definitions
+        if batchflag!='L' and batchflag!='M' and batchflag != 'S' and batchflag != 'C' and batchflag != 'N':
+            myqueue = "-q "+batchflag
+        else:
+            override_batchflag = True
+
+
+
+    # forcing a setup of the batch system
+    needsetup = len(setup.intersection(definitions)) > 0
+    if needsetup:
+        setup_batch(True)
+        print "Submit is now setup with the correct batchqueue system, please rerun the command"
+        sys.exit()
+    
+    if not(override_batchflag):
+        batchflag = setup_batch()
+    print "batchflag", batchflag
+    (program, parmfile, logfile, nodes, wallhour) = definitions[:5]
+    dobackfill = wall(wallhour)
+    print "dobackfill", dobackfill
+    if myqueue != "":
+        dobackfill = myqueue
+    #if batchflag == 'S':
+    #    sge(program,parmfile,logfile,nodes,wallhour,dobackfill)
+    #if batchflag == 'M':
+    #    moab(program,parmfile,logfile,nodes,wallhour,dobackfill)
+    if batchflag == 'L':
+        slurm(program,parmfile,logfile,nodes,wallhour,dobackfill)
+    #if batchflag == 'C':
+    #    condor(program,parmfile,logfile)
+    #if batchflag == 'N':
+    #    standard(program,parmfile,logfile,nodes,wallhour,dobackfill)
+    sys.exit()
+
+
+
+if __name__ == '__main__':
+	submit()
+
+
