@@ -17,7 +17,7 @@ do
 	do		
 		for REP in {1..100}  #REPLICATES
 		do
-		ID=$REP\_F$F\_L$L
+		ID=$REP\_E$E\_L$L
 		#3 Variants: Standard FASTA (A), Preprocessed FASTQ as FASTA (B), FASTQ with likelihood modification (C)
 
 		#Step 1:(ABC)  Generate the sequence files using a tree as input
