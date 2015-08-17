@@ -6,7 +6,7 @@ import sys
 
 #---------Function: char_to_qual
 # 
-#	Input: (char) ASCII character representing quality score 
+#	Input: (char) ASCII character representing quality score
 #	Output: (qual) Quality score integer value indicated by ASCII quality character
 # 
 #	TODO: Support various machines (only Ilumina 1.8+ now)
