@@ -31,24 +31,26 @@ do
 		#	Input: $data/sequences.phy
 		#	Output: $data/sequences.fasta
 		python $scripts/phylipToFASTA.py $data/$ID\_inseq.phy $data/$ID\_inseq.fasta
+
+		cp $data/$ID\_inseq.fasta $data/$ID\_inseq\_RAW.fasta   #USE THIS #1
 	
 		rm $data/$ID\_inseq.phy
 
 		#Step 3:(BC) Generate simulated FASTQ file from the FASTA file.
 		python $scripts/fastq_sim.py $data/$ID\_inseq.fasta $E
-		cp $data/$ID\_inseq.fastq  $data/$ID\_inseq\_RAW.fastq
-		cp $data/$ID\_inseq.fastq  $data/$ID\_inseq\_FASTQ.fastq
+		# cp $data/$ID\_inseq.fastq  $data/$ID\_inseq\_RAW.fastq
+		cp $data/$ID\_inseq.fastq  $data/$ID\_inseq\_FASTQ.fastq  #USE THIS #2
 
 		#Step 4:(B) Run FASTQ file through some preprocessor
-		python $scripts/fastq_filter.py $data/$ID\_inseq\_RAW.fastq 0
-		cp $data/$ID\_inseq\_RAW_FILTERED.fasta $data/$ID\_inseq\_RAW.fasta
+		# python $scripts/fastq_filter.py $data/$ID\_inseq\_RAW.fastq 0
+		# cp $data/$ID\_inseq\_RAW_FILTERED.fasta $data/$ID\_inseq\_RAW.fasta
 		python $scripts/fastq_filter.py $data/$ID\_inseq.fastq $F
 		python $scripts/fastq_filter.py $data/$ID\_inseq\_FASTQ.fastq $F  #Temporary
 
 		#Step 5:(ABC) Generate XML file for beast using FASTA/FASTQ files
 		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_RAW.fasta   #RAW FASTA
-		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_FILTERED.fasta  #FASTA FROM FILTERED FASTQ
-		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_FASTQ\_FILTERED.fastq #SIMULATED FASTQ
+		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_FASTQ.fastq  #SIMULATED FASTQ
+		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_FASTQ\_FILTERED.fastq #FILTERED SIMULATED FASTQ
 
 
 		#Step 6:(ABC) Run beast
