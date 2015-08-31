@@ -7,7 +7,7 @@ rm -f launchfile_temp
 filter_threshold=15
 
 INDEX=0
-TOTAL=900
+TOTAL=18
 
 for L in 100 500 1000 #SEQUENCE LENGTH
 do
@@ -15,10 +15,19 @@ do
 	F=15
 	for E in 0.01 0.05 0.10
 	do		
-		for REP in {1..100}  #REPLICATES
+		for REP in {1..2}  #REPLICATES
 		do
 		ID=$REP\_E$E\_L$L
 		#3 Variants: Standard FASTA (A), Preprocessed FASTQ as FASTA (B), FASTQ with likelihood modification (C)
+
+
+		#Step 0:(ABC)  Replace species names in tree file with short replacement names (original names stored)
+		#	Inputs
+		#	original.tree -   The original tree that you are replacing names in
+		#	example.tree -  New tree you are creating with replaced names
+		#	plant.names - Name of file where short-to-long name list is/will be stored
+		# 	replace(insert)- Operation you are performing
+		python $scripts/replace_species_names.py $data/original.tree $data/example.tree $data/plant.names replace
 
 		#Step 1:(ABC)  Generate the sequence files using a tree as input
 		#	-m (model)  HKY
@@ -57,6 +66,10 @@ do
 		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_RAW_beauti.xml '$ID'_RAW 1 4:00:00' >> launchfile_temp
 		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FASTQ_beauti.xml '$ID'_FASTQ 1 4:00:00' >> launchfile_temp
 		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FASTQ_FILTERED_beauti.xml '$ID'_FASTQ_FILTERED 1 4:00:00' >> launchfile_temp
+
+		#beast -overwrite -working $data/$ID\_inseq_RAW_beauti.xml
+		#beast -overwrite -working $data/$ID\_inseq_FILTERED_beauti.xml 
+		#beast -overwrite -working $data/$ID\_inseq_FASTQ_FILTERED_beauti.xml
 
 
 		INDEX=$(($INDEX+1))
