@@ -26,8 +26,8 @@ do
 		#	original.tree -   The original tree that you are replacing names in
 		#	example.tree -  New tree you are creating with replaced names
 		#	plant.names - Name of file where short-to-long name list is/will be stored
-		# 	replace(insert)- Operation you are performing
-		python $scripts/replace_species_names.py $data/original.tree $data/example.tree $data/plant.names replace
+		# 	1 for replace(2 for insert)- Operation you are performing
+		python $scripts/replace_species_names.py $data/original.tree $data/example.tree $data/plant.names 1
 
 		#Step 1:(ABC)  Generate the sequence files using a tree as input
 		#	-m (model)  HKY

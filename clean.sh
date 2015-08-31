@@ -1,5 +1,7 @@
 d="data"
 
+rm -f $d/*.names
+rm -f $d/example.tree
 for i in {1..100}; do rm -f $d/$i*; done;
 rm -f $d/*.FASTA
 rm -f $d/*.fasta
