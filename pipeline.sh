@@ -7,7 +7,7 @@ rm -f launchfile_temp
 filter_threshold=15
 
 INDEX=0
-TOTAL=18
+TOTAL=900
 
 for L in 100 500 1000 #SEQUENCE LENGTH
 do

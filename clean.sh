@@ -1,5 +1,6 @@
 d="data"
 
+rm -f launchfile_temp
 rm -f $d/*.names
 rm -f $d/example.tree
 for i in {1..100}; do rm -f $d/$i*; done;
