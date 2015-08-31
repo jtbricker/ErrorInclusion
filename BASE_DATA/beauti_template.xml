@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" version="2.0">
+
+SEQUENCE_TEMPLATE
+    
+<map name="Uniform" >beast.math.distributions.Uniform</map>
+<map name="Exponential" >beast.math.distributions.Exponential</map>
+<map name="LogNormal" >beast.math.distributions.LogNormalDistributionModel</map>
+<map name="Normal" >beast.math.distributions.Normal</map>
+<map name="Beta" >beast.math.distributions.Beta</map>
+<map name="Gamma" >beast.math.distributions.Gamma</map>
+<map name="LaplaceDistribution" >beast.math.distributions.LaplaceDistribution</map>
+<map name="prior" >beast.math.distributions.Prior</map>
+<map name="InverseGamma" >beast.math.distributions.InverseGamma</map>
+<map name="OneOnX" >beast.math.distributions.OneOnX</map>
+
+
+<run id="mcmc" spec="MCMC" chainLength="10000000">
+    <state id="state" storeEvery="5000">
+        <tree id="Tree.t:SEQ_ID_NAME" name="stateNode">
+            <taxonset id="TaxonSet.SEQ_ID_NAME" spec="TaxonSet">
+                <alignment idref="SEQ_ID_NAME"/>
+            </taxonset>
+        </tree>
+        <parameter id="birthRate.t:SEQ_ID_NAME" name="stateNode">1.0</parameter>
+        <parameter id="kappa.s:SEQ_ID_NAME" lower="0.0" name="stateNode">2.0</parameter>
+        <parameter id="freqParameter.s:SEQ_ID_NAME" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25</parameter>
+    </state>
+
+    <init id="RandomTree.t:SEQ_ID_NAME" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:SEQ_ID_NAME" taxa="@SEQ_ID_NAME">
+        <populationModel id="ConstantPopulation0.t:SEQ_ID_NAME" spec="ConstantPopulation">
+            <parameter id="randomPopSize.t:SEQ_ID_NAME" name="popSize">1.0</parameter>
+        </populationModel>
+    </init>
+
+    <distribution id="posterior" spec="util.CompoundDistribution">
+        <distribution id="prior" spec="util.CompoundDistribution">
+            <distribution id="YuleModel.t:SEQ_ID_NAME" spec="beast.evolution.speciation.YuleModel" birthDiffRate="@birthRate.t:SEQ_ID_NAME" tree="@Tree.t:SEQ_ID_NAME"/>
+            <prior id="YuleBirthRatePrior.t:SEQ_ID_NAME" name="distribution" x="@birthRate.t:SEQ_ID_NAME">
+                <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+            </prior>
+            <prior id="KappaPrior.s:SEQ_ID_NAME" name="distribution" x="@kappa.s:SEQ_ID_NAME">
+                <LogNormal id="LogNormalDistributionModel.0" name="distr">
+                    <parameter id="RealParameter.0" estimate="false" name="M">1.0</parameter>
+                    <parameter id="RealParameter.01" estimate="false" name="S">1.25</parameter>
+                </LogNormal>
+            </prior>
+        </distribution>
+        <distribution id="likelihood" spec="util.CompoundDistribution">
+            <distribution id="treeLikelihood.SEQ_ID_NAME" spec="TreeLikelihood" data="@SEQ_ID_NAME" tree="@Tree.t:SEQ_ID_NAME">
+                <siteModel id="SiteModel.s:SEQ_ID_NAME" spec="SiteModel">
+                    <parameter id="mutationRate.s:SEQ_ID_NAME" estimate="false" name="mutationRate">1.0</parameter>
+                    <parameter id="gammaShape.s:SEQ_ID_NAME" estimate="false" name="shape">1.0</parameter>
+                    <parameter id="proportionInvariant.s:SEQ_ID_NAME" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
+                    <substModel id="hky.s:SEQ_ID_NAME" spec="HKY" kappa="@kappa.s:SEQ_ID_NAME">
+                        <frequencies id="estimatedFreqs.s:SEQ_ID_NAME" spec="Frequencies" frequencies="@freqParameter.s:SEQ_ID_NAME"/>
+                    </substModel>
+                </siteModel>
+                <branchRateModel id="StrictClock.c:SEQ_ID_NAME" spec="beast.evolution.branchratemodel.StrictClockModel">
+                    <parameter id="clockRate.c:SEQ_ID_NAME" estimate="false" name="clock.rate">1.0</parameter>
+                </branchRateModel>
+            </distribution>
+        </distribution>
+    </distribution>
+
+    <operator id="YuleBirthRateScaler.t:SEQ_ID_NAME" spec="ScaleOperator" parameter="@birthRate.t:SEQ_ID_NAME" scaleFactor="0.75" weight="3.0"/>
+
+    <operator id="YuleModelTreeScaler.t:SEQ_ID_NAME" spec="ScaleOperator" scaleFactor="0.5" tree="@Tree.t:SEQ_ID_NAME" weight="3.0"/>
+
+    <operator id="YuleModelTreeRootScaler.t:SEQ_ID_NAME" spec="ScaleOperator" rootOnly="true" scaleFactor="0.5" tree="@Tree.t:SEQ_ID_NAME" weight="3.0"/>
+
+    <operator id="YuleModelUniformOperator.t:SEQ_ID_NAME" spec="Uniform" tree="@Tree.t:SEQ_ID_NAME" weight="30.0"/>
+
+    <operator id="YuleModelSubtreeSlide.t:SEQ_ID_NAME" spec="SubtreeSlide" tree="@Tree.t:SEQ_ID_NAME" weight="15.0"/>
+
+    <operator id="YuleModelNarrow.t:SEQ_ID_NAME" spec="Exchange" tree="@Tree.t:SEQ_ID_NAME" weight="15.0"/>
+
+    <operator id="YuleModelWide.t:SEQ_ID_NAME" spec="Exchange" isNarrow="false" tree="@Tree.t:SEQ_ID_NAME" weight="3.0"/>
+
+    <operator id="YuleModelWilsonBalding.t:SEQ_ID_NAME" spec="WilsonBalding" tree="@Tree.t:SEQ_ID_NAME" weight="3.0"/>
+
+    <operator id="KappaScaler.s:SEQ_ID_NAME" spec="ScaleOperator" parameter="@kappa.s:SEQ_ID_NAME" scaleFactor="0.5" weight="0.1"/>
+
+    <operator id="FrequenciesExchanger.s:SEQ_ID_NAME" spec="DeltaExchangeOperator" delta="0.01" weight="0.1">
+        <parameter idref="freqParameter.s:SEQ_ID_NAME"/>
+    </operator>
+
+    <logger id="tracelog" fileName="SEQ_ID_NAME.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
+        <log idref="posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+        <log idref="treeLikelihood.SEQ_ID_NAME"/>
+        <log id="TreeHeight.t:SEQ_ID_NAME" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:SEQ_ID_NAME"/>
+        <log idref="YuleModel.t:SEQ_ID_NAME"/>
+        <log idref="birthRate.t:SEQ_ID_NAME"/>
+        <log idref="kappa.s:SEQ_ID_NAME"/>
+        <log idref="freqParameter.s:SEQ_ID_NAME"/>
+    </logger>
+
+    <logger id="screenlog" logEvery="1000">
+        <log idref="posterior"/>
+        <log id="ESS.0" spec="util.ESS" arg="@posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+    </logger>
+
+    <logger id="treelog.t:SEQ_ID_NAME" fileName="$(tree).trees" logEvery="1000" mode="tree">
+        <log id="TreeWithMetaDataLogger.t:SEQ_ID_NAME" spec="beast.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:SEQ_ID_NAME"/>
+    </logger>
+
+</run>
+
+</beast>
