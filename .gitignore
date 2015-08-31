@@ -1,0 +1,16 @@
+scripts/*.pyc
+data/*tre
+data/*nex
+data/*trees
+data/*outfile
+data/*intree
+data/*inseq*xml
+
+data/imgs/
+data/trees.zip
+
+MiniExp
+EXP1
+EXP2
+
+.DS_Store
