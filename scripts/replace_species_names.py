@@ -41,23 +41,23 @@ def insert_names_into_tree(infile, outfile, species):
 	file.close()
 
 def main():
+	print('argv:', sys.argv)
 	infilename = sys.argv[1]
 	outtreefilename = sys.argv[2]
 	speciesfilename = sys.argv[3]
-	oper = sys.argv[4]
-
-	if oper=='remove':
+	oper = int(sys.argv[4])
+	if oper==1:
 		remove_names_from_tree(infilename, outtreefilename, speciesfilename)
 
-	elif oper=='insert':
+	elif oper==2:
 		insert_names_into_tree(infilename, outtreefilename, speciesfilename)
 
 	else:
 		print "Usage: python replace_species_names.py orig_tree.tree new_tree.tree species_names.txt operation(remove/insert)"
-		print "Error: Operation must be either 'remove' or 'insert'"
+		print "Error: Operation must be either '1 (remove)' or '2 (insert)'"
 
 if __name__ == '__main__':
 	if(len(sys.argv) < 5):
-		print "Usage: python replace_species_names.py orig_tree.tree new_tree.tree species_names.txt operation(remove/insert)"
+		print "Usage: python replace_species_names.py orig_tree.tree new_tree.tree species_names.txt operation(1-remove/2-insert)"
 		exit(1)
 	main()
