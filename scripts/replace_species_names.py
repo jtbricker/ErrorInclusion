@@ -41,7 +41,7 @@ def insert_names_into_tree(infile, outfile, species):
 	file.close()
 
 def main():
-	print('argv:', sys.argv)
+	#print('argv:', sys.argv)
 	infilename = sys.argv[1]
 	outtreefilename = sys.argv[2]
 	speciesfilename = sys.argv[3]

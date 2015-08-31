@@ -15,7 +15,7 @@ do
 	F=15
 	for E in 0.01 0.05 0.10
 	do		
-		for REP in {1..2}  #REPLICATES
+		for REP in {1..100}  #REPLICATES
 		do
 		ID=$REP\_E$E\_L$L
 		#3 Variants: Standard FASTA (A), Preprocessed FASTQ as FASTA (B), FASTQ with likelihood modification (C)
