@@ -55,7 +55,7 @@ do
 
 		#Step 6:(ABC) Run beast
 		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_RAW_beauti.xml '$ID'_RAW 1 4:00:00' >> launchfile_temp
-		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FILTERED_beauti.xml '$ID'_FILTERED 1 4:00:00' >> launchfile_temp
+		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FASTQ_beauti.xml '$ID'_FASTQ 1 4:00:00' >> launchfile_temp
 		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FASTQ_FILTERED_beauti.xml '$ID'_FASTQ_FILTERED 1 4:00:00' >> launchfile_temp
 
 

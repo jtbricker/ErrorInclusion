@@ -19,3 +19,5 @@ rm -f $d/*state*
 rm -f $d/intree
 rm -f $d/outfile
 rm -f $d/*sub
+rm -f *.sub
+rm -f *_E*_L*
