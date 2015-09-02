@@ -5,6 +5,12 @@ data/*trees
 data/*outfile
 data/*intree
 data/*inseq*xml
+data/*fasta
+data/
+
+*_FASTQ*
+*_RAW*
+*.sub
 
 data/imgs/
 data/trees.zip
@@ -14,3 +20,6 @@ EXP1
 EXP2
 
 .DS_Store
+launchfile*
+*~
+*.tgz
