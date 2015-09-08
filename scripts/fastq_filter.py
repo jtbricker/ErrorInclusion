@@ -77,23 +77,18 @@ def filter_reads(seqs, quals, threshold):
 	for i in range( len(quals) ):
 		indices.append([])
 		for j in range( len(quals[i])):
-			# print("char_to_qual:",char_to_qual(quals[i][j]))
-			# print ("threshold:", threshold)
 			if char_to_qual(quals[i][j]) < int( threshold):
 				continue
 			else:
 				indices[i].append(j)
-				# print 'ACCEPTED'
 
 	for i in range( len(seqs) ):
 		temp = ""
 		temp2 = ""
 		for j in range( len(seqs[i]) ):
 			if j not in indices[i]:
-				print "YAYAYYYYY!"
 				continue
 			else:
-				# print "YAYAYYYYY!"
 				temp += seqs[i][j]
 				temp2 += quals[i][j]
 		newSeqs.append( temp )
