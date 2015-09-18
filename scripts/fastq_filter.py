@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 from math import log
+import numpy as np
 import sys
 
 
@@ -64,7 +65,7 @@ def get_fasta_sequences(filename):
 #	and outputs removes "columns" from this allignment where at least one of the quality score
 #	falls below the threshold passed in. Returns filtered seqs and quals.
 # 
-#	Input: (seqs, quals, threshold) arrays sequences and quality strings, quality threshold value
+#	Input: (seqs, quals, threshold) arrays of all sequences and quality strings, quality threshold value
 #	Output: (newSeqs, newQuals) arrays containing the 
 # 
 #	TODO: 
@@ -74,26 +75,9 @@ def filter_reads(seqs, quals, threshold):
 	newSeqs = []
 	newQuals = []
 	
-	for i in range( len(quals) ):
-		indices.append([])
-		for j in range( len(quals[i])):
-			if char_to_qual(quals[i][j]) < int( threshold):
-				continue
-			else:
-				indices[i].append(j)
-
-	for i in range( len(seqs) ):
-		temp = ""
-		temp2 = ""
-		for j in range( len(seqs[i]) ):
-			if j not in indices[i]:
-				continue
-			else:
-				temp += seqs[i][j]
-				temp2 += quals[i][j]
-		newSeqs.append( temp )
-		newQuals.append( temp2)
-
+	averageQuals = [np.mean([ char_to_qual( x[i] ) for x in quals ]) for i in range( len(quals[0]) ) ]
+	newSeqs =  [ [base for index, base in enumerate(seq)  if averageQuals[index]>=threshold] for seq in seqs]
+	newQuals = [ [q_ch for index, q_ch in enumerate(qual) if averageQuals[index]>=threshold] for qual in quals]
 	return newSeqs,newQuals
 
 #---------Function: output_fastq
