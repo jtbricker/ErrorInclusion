@@ -24,3 +24,6 @@ launchfile*
 *~
 *.tgz
 *test*
+
+
+notes/.ipynb_checkpoints/
