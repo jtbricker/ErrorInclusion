@@ -70,26 +70,45 @@ def induce_error(fasta, errors):
 #	Output: (fastq) String of ASCII characters representing error values in (errors)
 # 
 #	TODO: 
-#		Add compatibility with other sequencers
+#		
 def create_quality_string(errors):
 	fastq = ""
 	for i in range(len(errors)):
 		error = errors[i]
 		if error == 0.0:
 			error = 1E-100
-		# print("whats the prob?:" + str(prob))
-		try:
-			QUAL = int(round(-10*log(error,10)))   #These are mappings for Illumina 1.8+
-			if (QUAL > 41): 
-				QUAL = 41
-		except:
-			print 'Some kind of math error.  Random seed:  ' + str(seed)
-			print 'Tried to run code: int(round(-10*log(error,10)))'
-			print error
-			exit(1)
-		#print QUAL>41
+		QUAL = error_to_qual(error)
 		fastq += chr(QUAL+33)
 	return fastq
+
+#---------Function: error_to_qual
+# 
+#	Input: (error) single error value
+#	Output: (QUAL) QUAL score associated with error
+# 
+#	TODO: 
+#		Add compatibility with other sequencers
+def error_to_qual(error):
+	try:
+		QUAL = int(round(-10.0*log(error,10)))   #These are mappings for Illumina 1.8+
+		if (QUAL > 41): 
+			QUAL = 41
+		return QUAL
+	except:
+		print 'Some kind of math error.  Random seed:  ' + str(seed)
+		print 'Tried to run code: int(round(-10*log(error,10)))'
+		print error
+		exit(1)
+
+#---------Function: qual_to_error
+# 
+#	Input:  (QUAL) QUAL score associated with error
+#	Output: (error) single error value 
+# 
+#	TODO: 
+#		Add compatibility with other sequencers
+def qual_to_error(qual):
+	return 10**-(qual/10.0)
 
 #---------Function: output_fastq_file
 # 
