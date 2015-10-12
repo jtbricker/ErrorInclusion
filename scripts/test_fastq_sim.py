@@ -69,6 +69,8 @@ class QualityAssignTest(unittest.TestCase):
 	def test_quality_string_length(self):
 		self.assertEqual(len(self.fastq_string),len(self.expected))
 
+	
+
 # Test to make sure output as FASTQ function works properly
 class FastqOutputTest(unittest.TestCase):
 	def setUp(self):
