@@ -92,7 +92,6 @@ def output_fastq(fastq_filtered_filename, names, newSeqs, newQuals):
 	
 	for i in range( len(names)):
 		a.write( "@" + names[i] + "\n")
-		print newSeqs[i]
 		a.write( newSeqs[i] + "\n")
 		a.write("+" + "\n")
 		a.write( newQuals[i] + "\n")
@@ -110,6 +109,7 @@ def output_fasta(fasta_filtered_filename, names, newSeqs):
 	a = open( fasta_filtered_filename, 'w')
 	for i in range( len(names)):
 		a.write( ">" + names[i] + "\n")
+		print newSeqs[i]
 		a.write( newSeqs[i] + "\n")
 	a.close()
 
