@@ -124,6 +124,7 @@ def main(filename, threshold):
 	file_ext = '.'+filename.split('.')[-1]
 	names, seqs, quals = get_sequences(filename)
 	newSeqs, newQuals = filter_reads(seqs,quals,threshold)
+	print('newseqs', newSeqs)
 	#fastq_filtered_filename = filename.split(file_ext)[0]+'_FILTERED.fastq'
 	#output_fastq(fastq_filtered_filename, names, newSeqs, newQuals)
 	fasta_filtered_filename = filename.split(file_ext)[0]+'_FILTERED.fasta'
