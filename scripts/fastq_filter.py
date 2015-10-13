@@ -78,6 +78,7 @@ def filter_reads(seqs, quals, threshold):
 	averageQuals = [np.mean([ char_to_qual( x[i] ) for x in quals ]) for i in range( len(quals[0]) ) ]
 	print('avgQual',averageQuals)
 	newSeqs =  [ [base for index, base in enumerate(seq)  if averageQuals[index]>=threshold] for seq in seqs]
+	print('newSeqs in filter func', newSeqs)
 	newQuals = [ [q_ch for index, q_ch in enumerate(qual) if averageQuals[index]>=threshold] for qual in quals]
 	return newSeqs,newQuals
 
