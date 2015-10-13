@@ -76,9 +76,7 @@ def filter_reads(seqs, quals, threshold):
 	newQuals = []
 	
 	averageQuals = [np.mean([ char_to_qual( x[i] ) for x in quals ]) for i in range( len(quals[0]) ) ]
-	print('avgQual',averageQuals)
 	newSeqs =  [ [base for index, base in enumerate(seq)  if averageQuals[index]>=threshold] for seq in seqs]
-	print('newSeqs in filter func', newSeqs)
 	newQuals = [ [q_ch for index, q_ch in enumerate(qual) if averageQuals[index]>=threshold] for qual in quals]
 	return newSeqs,newQuals
 
@@ -123,10 +121,10 @@ def output_fasta(fasta_filtered_filename, names, newSeqs):
 #	TODO: Add optional arguments (sequencing machine for example)
 #		
 def main(filename, threshold):
+	threshold = int(threshold)
 	file_ext = '.'+filename.split('.')[-1]
 	names, seqs, quals = get_sequences(filename)
 	newSeqs, newQuals = filter_reads(seqs,quals,threshold)
-	print('newseqs', newSeqs)
 	#fastq_filtered_filename = filename.split(file_ext)[0]+'_FILTERED.fastq'
 	#output_fastq(fastq_filtered_filename, names, newSeqs, newQuals)
 	fasta_filtered_filename = filename.split(file_ext)[0]+'_FILTERED.fasta'
