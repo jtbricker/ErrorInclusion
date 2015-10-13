@@ -76,8 +76,8 @@ def filter_reads(seqs, quals, threshold):
 	newQuals = []
 	
 	averageQuals = [np.mean([ char_to_qual( x[i] ) for x in quals ]) for i in range( len(quals[0]) ) ]
-	newSeqs =  [ [base for index, base in enumerate(seq)  if averageQuals[index]>=threshold] for seq in seqs]
-	newQuals = [ [q_ch for index, q_ch in enumerate(qual) if averageQuals[index]>=threshold] for qual in quals]
+	newSeqs =  [ base for index, base in enumerate(seq)  if averageQuals[index]>=threshold for seq in seqs]
+	newQuals = [ q_ch for index, q_ch in enumerate(qual) if averageQuals[index]>=threshold for qual in quals]
 	return newSeqs,newQuals
 
 #---------Function: output_fastq
@@ -109,8 +109,7 @@ def output_fasta(fasta_filtered_filename, names, newSeqs):
 	a = open( fasta_filtered_filename, 'w')
 	for i in range( len(names)):
 		a.write( ">" + names[i] + "\n")
-		print newSeqs[i]
-		a.write( newSeqs[i] + "\n")
+		a.write( newnewSeqs[i] + "\n")
 	a.close()
 
 #---------Function: main
