@@ -54,13 +54,13 @@ do
 		#Step 5:(ABC) Generate XML file for beast using FASTA/FASTQ files
 		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_RAW.fasta   #1 RAW FASTA
 		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_FASTA_ERROR.fasta  #2 SIMULATED ERROR FASTA
-		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_FASTQ\_FILTERED.fasta #3 FILTERED SIMULATED FASTQ as FASTA
+		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_FILTERED.fasta #3 FILTERED SIMULATED FASTQ as FASTA
 		python $scripts/fastxToBeauti.py $data/$ID\_inseq\_FASTQ_CALCULATED.fastq  #4 SIMULATED ERROR FASTQ!
 
 		#Step 6:(ABC) Run beast
 		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_RAW_beauti.xml '$ID'_RAW 1 4:00:00' >> launchfile_temp
 		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FASTA_ERROR_beauti.xml '$ID'_FASTA_ERROR 1 4:00:00' >> launchfile_temp
-		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FASTQ_FILTERED_beauti.xml '$ID'_FASTQ_FILTERED 1 4:00:00' >> launchfile_temp
+		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FILTERED_beauti.xml '$ID'_FILTERED 1 4:00:00' >> launchfile_temp
 		echo cd 'ErrorInclusion; beast_submit beast '$data'/'$ID'_inseq_FASTQ_CALCULATED_beauti.xml '$ID'_FASTQ_CALCULATED 1 4:00:00' >> launchfile_temp
 
 		#beast -overwrite -working $data/$ID\_inseq_RAW_beauti.xml
