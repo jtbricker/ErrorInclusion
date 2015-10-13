@@ -107,7 +107,7 @@ def output_fastq(fastq_filtered_filename, names, newSeqs, newQuals):
 #		
 def output_fasta(fasta_filtered_filename, names, newSeqs):
 	a = open( fasta_filtered_filename, 'w')
-	
+	print(fasta_filtered_filename, names, newSeqs)
 	for i in range( len(names)):
 		a.write( ">" + names[i] + "\n")
 		a.write( newSeqs[i] + "\n")
