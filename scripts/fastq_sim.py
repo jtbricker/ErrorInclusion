@@ -32,6 +32,7 @@ def assign_error(seq, mu):
 #	if PLOT:
 #		plot_errors(errors)
 #		PLOT = 0;
+	# print errors
 	return errors
 
 
@@ -62,6 +63,7 @@ def induce_error(fasta, errors):
 			new_fasta += new_base
 		else:
 			new_fasta += fasta[i]
+	# print new_fasta
 	return new_fasta
 
 #---------Function: create_quality_string
@@ -125,6 +127,18 @@ def output_fastq_file(outfile, name, sequence_string, quality_string):
 	#print quality_string
 	return 
 
+#---------Function: output_fasta_file
+# 
+#	Input: (new_seqs) Array of Errors 
+#	Output: --none-- Method Creates FASTQ file of modified sequence data
+# 
+#	TODO: 
+#		
+def output_fasta_file(outfile, name, sequence_string):
+	outfile.write('>'+name+"\n")
+	outfile.write(sequence_string + "\n")
+	return 
+
 #---------Function: main
 # 
 #	Input: (filename, seq_error) string indicating the name of the FASTA file you want to simulate on , mean sequencing error
@@ -140,16 +154,18 @@ def main(filename, seq_error):
 	new_sequences = []
 	quals = []
 	outfile = open(filename[0:filename.lower().rfind('.fasta')] + ".fastq",'w')
+	outfile2 = open(filename[0:filename.lower().rfind('.fasta')] + "_err.fasta",'w')
 	for i in range(len(sequences)):
 		errors.append(assign_error(sequences[i], seq_error))
 		new_sequences.append(induce_error(sequences[i],errors[i]))
 		quals.append(create_quality_string(errors[i]))
-		output_fastq_file(outfile, str(names[i]), str(sequences[i]), str(quals[i]))
+		output_fastq_file(outfile, str(names[i]), str(new_sequences[i]), str(quals[i]))
+		output_fasta_file(outfile2, str(names[i]), str(new_sequences[i]))
 	outfile.close()
 
 if __name__ == '__main__':
 	if len(sys.argv) < 3:
-		print "Usage: fastq_sim file.fasta sequencer_error"
+		print "Usage: python fastq_sim file.fasta sequencer_error"
 		exit(1)
 	main(sys.argv[1], sys.argv[2])
 
