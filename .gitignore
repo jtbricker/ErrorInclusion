@@ -6,7 +6,7 @@ data/*outfile
 data/*intree
 data/*inseq*xml
 data/*fasta
-data/
+data/*
 
 *_FASTQ_CALCULATED*
 *_FASTA_ERROR*
@@ -27,5 +27,7 @@ launchfile*
 *.tgz
 *test*
 
+Unknown_EXP/
+working_data/
 
 notes/.ipynb_checkpoints/
